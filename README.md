@@ -15,3 +15,4 @@ Contribution by Rishabh and Jonathan:
 Date: 15/11/22
 1) https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html - for the pipelining of the data and more traditional models.
 2) https://www.tensorflow.org/tutorials - To train the data 
+3) We studied about the sickit learn tutorial/implemented it/learning the usage of the sickit learn for the vectorization and training the data set. 
