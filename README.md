@@ -17,4 +17,6 @@ Date: 15/11/22
 2) https://www.tensorflow.org/tutorials - To train the data 
 3) We studied about the sickit learn tutorial/implemented it/learning the usage of the sickit learn for the vectorization and training the data set. 
 
-Date: 18/11/22
+Date: 20/11/22
+
+Contribution by Rishabh and Jonathan:
