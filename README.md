@@ -19,4 +19,4 @@ Date: 15/11/22
 
 Date: 20/11/22
 
-Contribution by Rishabh and Jonathan:
+1) We continued to study scikit learn and its usage for text analysis.
