@@ -20,3 +20,14 @@ Date: 15/11/22
 Date: 20/11/22
 
 1) We continued to study scikit learn and its usage for text analysis.
+
+Date: 01/12/22 - 04/12/22
+1) Tried many ways by which I can read and process such huge dataset in my computer.
+2) Methods I tried to use:
+	a) Spliting the data
+	b) Installed a linux distro and used swap memory(10GB) as extension to RAM(8GB) but it also didn't worked.
+3) Atlast after unable to find a feasible method. We settled on the idea to use reduced dataset.
+
+Date: 05/12/22
+1) Now I just used a single file from the multiple splited to do the pre-processing and tesitng of the code.
+2) Jakob will not implement it on the full dataset as he is able to load and process the dataset on his Computer.
