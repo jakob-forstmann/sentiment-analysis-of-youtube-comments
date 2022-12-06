@@ -1,15 +1,22 @@
 # Project title: sentiment-analysis-of-youtube-comments
 ## Team members: 
-Kushal Gaywala,kushal.gaywala@stud.uni-heidelberg.de
-Rishabh Tiwari, rishabh.tiwari@stud.uni-heidelberg.de
-Jonathan Alexander Hirsch,ww251@stud.uni-heidelberg.de 
-Jakob Forstmann,jakob.forstmann@stud.uni-heidelberg.de
+- Kushal Gaywala, kushal.gaywala@stud.uni-heidelberg.de
+- Rishabh Tiwari, rishabh.tiwari@stud.uni-heidelberg.de
+- Jonathan Alexander Hirsch, ww251@stud.uni-heidelberg.de 
+- Jakob Forstmann, jakob.forstmann@stud.uni-heidelberg.de
 
 ## utilzed libraries: 
+- pandas: used to clean up the data 
 
-### Description 
-This repo is used for a project in the class Data Science for Text Analytics at Heidelberg University.
+## used dataset 
+We use the Movies and TV [amazon reviews dataset](https://nijianmo.github.io/amazon/index.html) from the following paper:
 
+Justifying recommendations using distantly-labeled reviews and fined-grained aspects
+
+Jianmo Ni, Jiacheng Li, Julian McAuley
+Empirical Methods in Natural Language Processing (EMNLP), 2019
+
+## project log
 Contribution by Rishabh and Jonathan:
 
 Date: 15/11/22
