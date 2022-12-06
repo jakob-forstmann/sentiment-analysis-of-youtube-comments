@@ -30,4 +30,3 @@ Date: 01/12/22 - 04/12/22
 
 Date: 05/12/22
 1) Now I just used a single file from the multiple splited to do the pre-processing and tesitng of the code.
-2) Jakob will not implement it on the full dataset as he is able to load and process the dataset on his Computer.
