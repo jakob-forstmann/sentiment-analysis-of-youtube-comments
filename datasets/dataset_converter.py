@@ -6,6 +6,11 @@ class Converter():
     convert the dataset into a usable dataframe"""
 
     def __init__(self):
+        self.funcs_to_clean_data = {
+            "delete": self.delete_unused_columns,
+            "convert": self.convert_star_rating,
+            "remove duplicates": self.filter_duplicates_entries
+        }
         self._converted_dataframes = []
         self.star_rating_converter = {
             1: "negative",
@@ -26,15 +31,14 @@ class Converter():
                 self._converted_dataframes.append(rating)
         return self._converted_dataframes
 
-    def clean_data(self):
+    def clean_data(self, operations: []):
         """ clean the converted dataframe with the following steps:
             - remove all columns except for rating and the review text
             - convert the star rating into three categories negative,neutral and positive
             - remove reviews with the same text and the same sentiment """
         for rating in self._converted_dataframes:
-            self.delete_unused_columns(rating)
-            self.convert_star_rating(rating)
-            self.filter_duplicates_entries(rating)
+            for operation in operations:
+                self.funcs_to_clean_data[operation](rating)
         return self._converted_dataframes
 
     def convert_star_rating(self, rating: pd.DataFrame):
@@ -50,7 +54,7 @@ class Converter():
     def filter_duplicates_entries(self, rating: pd.DataFrame):
         """ drops reviews which have the same rating and the same review text"""
         review_text = rating["reviewText"]
-        duplicated_reviews = rating["reviewText"].duplicated()
+        duplicated_reviews = review_text.duplicated()
         # use slightly more code instead of simply groupBy because using groupBy requires
         # to concentate the resulting groups again resulting in slighty slower code.
         # since this code is already slow we avoid to slow down again.
