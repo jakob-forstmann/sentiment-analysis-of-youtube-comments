@@ -1,49 +1,36 @@
 import os
-import pandas as pd
-import nltk
 import re
+import nltk
+import pandas as pd
+import numpy as np
 
-'''
-Make sure to install the nltk before hand
-'''
 from nltk.stem import WordNetLemmatizer
 from nltk.stem.snowball import EnglishStemmer
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 
-'''
-Remove these download line if they are already downloaded in my case I need to download it
-'''
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 nltk.download('punkt')
+nltk.download('stopwords')
 
-
-'''
-Just declaring the Number of files variable
-'''
+# Just declaring the Number of files variable
 NUMBER_OF_FILES = 0
 ratings = pd.DataFrame
 
 
-'''
-Retriving the file names with the help of os module
-'''
+# Retriving the file names with the help of os module
 data_file_names = os.listdir('./DataPickles/')
 
-'''
-Write the directory scructure you have for the dataset, and if in the same folder just comment and ignore the below cell
-'''
+
+# write the directory scructure you have for the dataset, and if in the same folder just comment and ignore the below cell
 data_file_names = [f'./DataPickles/{file_names}' for file_names in data_file_names]
 
-'''
-Initializing the Number of files variable can be useful later
-'''
+# Initializing the Number of files variable can be useful later
 NUMBER_OF_FILES = len(data_file_names)
 
-'''
-Routine that converts a five star rating into three categories: 
-negative, neutral and positive
-'''
+
+# Routine that converts a five star rating into three categories: negative,neutral and positive
 def convert_star_rating(rating: pd.DataFrame):
     converter = {
         1: "negative",
@@ -54,34 +41,26 @@ def convert_star_rating(rating: pd.DataFrame):
     }
     rating["overall"] = rating["overall"].map(converter)
 
-
-'''
-Routine that delete all columns except rating and the review text
-'''
 def delete_unused_columns(rating: pd.DataFrame):
     rating = rating.drop(columns=["vote", "image", "style", "verified", "reviewTime", "summary",
                                   "unixReviewTime", "reviewerName", "asin", "reviewerID"], axis=1)
 
-
-'''
-Routine that deletes duplicates entries
-'''
+# Routine that deletes duplicates entries
 ratings = pd.DataFrame
-
 ratings = pd.read_json(f'./DataPickles/Movies_and_TV00.json', encoding="ascii", lines=True)
 delete_unused_columns(ratings)
 convert_star_rating(ratings)
 
-excess_rows_removed = ratings.drop(['verified', 'reviewTime', 'reviewerID', 'asin', 'style', 'reviewerName', 'summary', 'unixReviewTime', 'vote', 'image'], axis=1)
+rrRatings = ratings.drop(['verified', 'reviewTime', 'reviewerID', 'asin', 'style', 'reviewerName', 'summary', 'unixReviewTime', 'vote', 'image'], axis=1)
 
 count = 0
-for i in excess_rows_removed['reviewText']:
-    if i == "":
+for i in rrRatings['reviewText']:
+    if i == '':
         count = count + 1
 print(f'ReviewText null Count: {count}')
 
 pos, neg = 0, 0
-for i in excess_rows_removed['overall']:
+for i in rrRatings['overall']:
     if i == "positive":
         pos += 1
     elif i == "negative":
@@ -91,22 +70,18 @@ print(f'Overall positive Count: {pos},\nNegative count: {neg}')
 
 lemmatizer = WordNetLemmatizer()
 stemmer = EnglishStemmer()
+english_stopwords = stopwords.words('english')
 
-review_text = excess_rows_removed['reviewText']
+reviews = rrRatings['reviewText']
 
-'''
-Removing any white spaces repeating more than once
-'''
-for text in review_text:
-    removed_spaces = re.sub('[ ]+', " ", str(text))
+preprocessed_reviews = []
 
-'''
-- performing whole pre-processing pipeline which I think is appropriate
-stemming is stemming the words as not expected but its overdoing it.
-'''
-for text in review_text:
-    tokenized = word_tokenize(text)
-    only_alphas = [re.sub('^[^A-Za-z]+', '', token) for token in tokenized]
-    no_spaces = filter(lambda alpha: alpha != '', only_alphas)
-    lemmatized = [lemmatizer.lemmatize(token) for token in no_spaces]
-    stemmed = [stemmer.stem(token) for token in lemmatized]
+for review in reviews:
+    review = str(review).lower()
+    tokenized = word_tokenize(review)
+    no_specials = [re.sub('^[^A-Za-z]+', '', token) for token in tokenized]
+    no_blanks = filter(lambda blanks: blanks != "", no_specials)
+    no_stopwords = [word for word in no_blanks if word not in english_stopwords]
+    lemmatized = [lemmatizer.lemmatize(token) for token in no_stopwords]
+#     stemmed = [stemmer.stem(token) for token in lemmatized] Stemming is not what we expected it is overdoing the words.
+    preprocessed_reviews.append(' '.join(lemmatized))

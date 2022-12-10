@@ -6,7 +6,12 @@
 - Jakob Forstmann, jakob.forstmann@stud.uni-heidelberg.de
 
 ## utilzed libraries: 
-- pandas: used to clean up the data 
+- <a herf="https://pandas.pydata.org/">Pandas</a> used to clean up the data
+	## processing libraries:
+	- <a herf="https://www.nltk.org/api/nltk.stem.html">Stem</a>: used  WordNet Lemmatizer for lematization
+	- <a herf="https://www.nltk.org/api/nltk.corpus.html">Corpus</a>: used  to remove stopwords
+	- <a herf="https://www.nltk.org/">NLTK</a>: used to preprocess the data
+	- <a herf="">re</a>: used to implement regular expression during processing
 
 ## used dataset 
 We use the Movies and TV [amazon reviews dataset](https://nijianmo.github.io/amazon/index.html) from the following paper:
