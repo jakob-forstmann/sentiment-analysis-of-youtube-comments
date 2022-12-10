@@ -30,8 +30,9 @@ class DatasetStatistics():
             self.reviews_sorted_by_years[index] += reviews_between_years["unixReviewTime"].count()
         return self.reviews_sorted_by_years
 
-    def number_of_reviews_per_sentiment(self, review: pd.DataFrame):
-        """ returns a dict with number of positives,neutral and negatives reviews"""
+    def review_sentiment_distribution(self, review: pd.DataFrame):
+        """ calculate the number of reviews for each sentiment
+        returns a dict with number of positives,neutral and negatives reviews"""
         reviews_per_sentiment = review["overall"].value_counts().to_dict()
         return reviews_per_sentiment
 
@@ -52,3 +53,14 @@ class DatasetStatistics():
         ax.bar(xdata, ydata)
         plt.show()
         fig.savefig(name)
+
+
+class DataSet:
+    LINES_COMPLETE_DATASET = 3410019
+    number_of_splitted_files = 9
+    reviews_per_file: LINES_COMPLETE_DATASET // number_of_splitted_files
+
+    @classmethod
+    def use_number_of_splitted_files(cls, number_of_splitted_files=1):
+        if number_of_splitted_files >= 1:
+            cls.number_of_splitted_files = number_of_splitted_files

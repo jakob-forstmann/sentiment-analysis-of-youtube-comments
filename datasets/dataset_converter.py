@@ -1,9 +1,10 @@
 import pandas as pd
+from dataset_statistics import DataSet
 
 
 class Converter():
     """
-    convert the dataset into a usable dataframe"""
+    converts a dataset into a usable dataframe"""
 
     def __init__(self):
         self.funcs_to_clean_data = {
@@ -20,25 +21,30 @@ class Converter():
             5: "positive"
         }
 
-    def file_to_dataframe(self, file_names_prefix, files_extension, number_of_splitted_files=1):
-        """convert a file splitted into number_of_splitted_files into a dataframe.The file is
-            splitted to avoid a memory error during the conversion.Since the conversion might still
-            take several minutes we use a smaller dataset created in the file relevance_sampling.py"""
+    def file_to_dataframe(self, file_names_prefix, files_extension) -> []:
+        """ converts each splitted_file into one dataframe
+            returns a list of dataframes """
         if len(self._converted_dataframes) == 0:
-            for i in range(0, number_of_splitted_files):
+            for i in range(0, DataSet.number_of_splitted_files):
                 file_name = file_names_prefix+str(i)+files_extension
                 rating = pd.read_json(file_name, encoding="ascii", lines=True)
                 self._converted_dataframes.append(rating)
         return self._converted_dataframes
 
-    def clean_data(self, operations: []):
-        """ clean the converted dataframe with the following steps:
-            - remove all columns except for rating and the review text
-            - convert the star rating into three categories negative,neutral and positive
-            - remove reviews with the same text and the same sentiment """
+    def clean_data(self, operations=["delete", "convert", "remove duplicates"]) -> []:
+        """ clean a converted dataframe with the passed functions
+
+            supported functions are:
+            delete unused columns
+            convert an amazon rating into three categories:positive, neutral, negative
+            remove reviews with the same rating and the same review text
+        """
         for rating in self._converted_dataframes:
             for operation in operations:
-                self.funcs_to_clean_data[operation](rating)
+                try:
+                    self.funcs_to_clean_data[operation](rating)
+                except KeyError(operation):
+                    print(f"operation {operation} not supported")
         return self._converted_dataframes
 
     def convert_star_rating(self, rating: pd.DataFrame):
