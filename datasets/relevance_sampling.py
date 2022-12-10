@@ -6,7 +6,7 @@ from dataset_statistics import DataSet
 class DatasetSampling:
     """splits the dataset into a smaller dataset using relevance sampling """
 
-    def __init__(self, distribution="equally", reviews_to_use_for_distribution: [{}] = None):
+    def __init__(self, reviews_to_use_for_distribution: [{}], distribution="equally"):
         """ specify if you want to distribute the reviews equally or not, see below.
         all_reviews: a list of dataframes for each splitted file
         distribution:
@@ -44,9 +44,10 @@ class DatasetSampling:
             reviews_to_include_per_file = 1
         return reviews_to_include_per_file
 
-    def split_complete_dataset(self, new_number_of_reviews, all_reviews: []):
+    def split_dataset(self, new_number_of_reviews, all_reviews: []):
         """ split the dataframe with all reviews to a smaller dataframe which has
         number_of_reviews reviews with the distribution specified at creation
+        TODO: maybe also consider the number of reviews per year when splitting the dataset
         """
         reviews_for_smaller_dataset = []
         already_included_reviews = 0
@@ -60,7 +61,7 @@ class DatasetSampling:
         return pd.DataFrame(reviews_for_smaller_dataset)
 
     def select_review_from_file(self, reviews_in_file):
-        review_number = random.choice(self.possible_reviews_nums)
+        review_number = random.randrange(len(self.possible_reviews_nums))
         self.possible_reviews_nums.pop(review_number)
         return reviews_in_file.loc[review_number]
 

@@ -58,7 +58,7 @@ class DatasetStatistics():
 class DataSet:
     LINES_COMPLETE_DATASET = 3410019
     number_of_splitted_files = 9
-    reviews_per_file: LINES_COMPLETE_DATASET // number_of_splitted_files
+    reviews_per_file = LINES_COMPLETE_DATASET // number_of_splitted_files
 
     @classmethod
     def use_number_of_splitted_files(cls, number_of_splitted_files=1):
