@@ -39,3 +39,10 @@ Date 12/11/22
 
 Next steps would be: We would like to train the model using vector machines. 
 
+Date 12/11/22
+
+Rishab and Jonathan:
+We are going to use linear Support Vector Machines (SVM) for our classification problem.
+They are considered among the best models for Sentiment Analysis.
+We are going to use the data set for training and hyperparameter tuning of the SVM.
+The SVM should than be tested on comments from YouTube.
