@@ -16,6 +16,7 @@ Justifying recommendations using distantly-labeled reviews and fined-grained asp
 Jianmo Ni, Jiacheng Li, Julian McAuley
 Empirical Methods in Natural Language Processing (EMNLP), 2019
 
+
 ## project log
 Contribution by Rishabh and Jonathan:
 
@@ -27,4 +28,14 @@ Date: 15/11/22
 Date: 20/11/22
 
 1) We continued to study scikit learn and its usage for text analysis.
+
+Date 12/11/22
+
+1) We studied about Fitting and predicting: estimator basics
+2) Transformers and pre-processors
+3) Pipelines: chaining pre-processors and estimators
+4) Model evaluation
+
+
+Next steps would be: We would like to train the model using vector machines. 
 
