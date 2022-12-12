@@ -52,7 +52,7 @@ Empirical Methods in Natural Language Processing (EMNLP), 2019
 - We first tried it doing it using the whole dataset but it overloaded my RAM (8GB) then we tried different methods as follows:
   - We first tried to use the code from the paper but it does not increase the performance so we ditched that idea.
   - Installing linux as secondary OS and increasing the swapped memory but it did not work.
-  - Then, We tried to split files into 9 different files and again it was the same issue.
+  - Then, we tried to split files into 9 different files and again it was the same issue.
   - We also tried to process by converting into a zip format but neither of the methods increased the performance.
   - So, We settled on using only using 1 file and after we were satisfied with the normalized data.
 - For the normalization of the data, We used NLTK library and it's different modules like:
