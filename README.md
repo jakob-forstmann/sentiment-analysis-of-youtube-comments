@@ -45,6 +45,27 @@ Empirical Methods in Natural Language Processing (EMNLP), 2019
 - after the orignal dataset was split into a smaller one,we can then proceed with the prepocessing definied in prepocessing.py
 
 #### preprocessing pipeline
+- The code for the code conversion into dataframe was pre-written by Jakob, we used pandas dataframe for the data processing.
+- We first tried it doing it using the whole dataset but it overloaded my RAM(8GB) then We tried different methods as follows:
+  - We first tried to use the code from the paper but it does not increase the performance so we ditched that idea.
+  - Installing linux as secondary OS and increasing the swapped memory but it did not work.
+  - Then, We tried to split files into 9 different files and again it was the same issue.
+  - We also tried to process by converting into a zip format but neither of the methods increased the performance.
+  - So, We settled on using only using 1 file and after we were satisfied with the normalized data.
+- For the normalization of the data, We used NLTK library and it's different modules like:- 
+  - Stem: Used WordNet Lemmatizer for lematization of the tokens after tokenization.
+  - Snowball: Used snowball stemmer but it reduces an token to root form more than expected at that point it is not really a human understanble word, so didn't stemmed the data.
+  - Corpus: Used to remove stopwords form the dataset
+- re: It is a python module used to implement regular expression during processing to remove the unnecessary punctuations.
+#### Example of the Preprocessing:
+| overall | verified | reviewTime  | reviewerID     | asin       | style           | reviewerName | review_text               | summary | unixReviewTime |
+| ------- | :------- | :---------- | :------------- | :--------- | :-------------- | :----------- | :------------------------ | :------ | :------------- |
+| 5.0     | true     | 03 11, 2013 | A3478QRKQDOPQ2 | 0001527665 | Format: VHS Tape | jacki       | really happy they got evangelised .. spoiler alert==happy ending liked that..since started bit worrisome... but yeah great stories these missionary movies, really short only half hour but still great | great | 1362960000     |
+
+After preprocessing:
+- I cannot really see the lemmatization part of the processing in the normalized data and the stemming was overdone so did not use it, I think I am not able to understand it properly.
+,overall,reviewText
+0,positive,really happy got evangelised spoiler alert==happy ending liked since started bit worrisome yeah great story missionary movie really short half hour still great
 
 ### Data-Analysis:
 
