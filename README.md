@@ -25,6 +25,7 @@ Empirical Methods in Natural Language Processing (EMNLP), 2019
 - since the dataset is too huge to do prepocessing on the entire dataset we did the prepocessing only on about the first thousand
   entries of the dataset
 - we are working on splitting the dataset using relevance sampling instead of using just the first thousand entries
+- we implemented a module to get the comments from a video with a given ID using the Google API Client (we created a Google Developer Key for that purpose)
 
 ### Future planning:
 - Rishabh and Jonathan  are going to use linear Support Vector Machines (SVM) for our classification problem since they  among the best models for Sentiment    Analysis.
