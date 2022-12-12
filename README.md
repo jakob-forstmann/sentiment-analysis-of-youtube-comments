@@ -81,7 +81,7 @@ After preprocessing:
 
 number of revies per year
 
-![number reviews per year](reviews_full_plot.png)
+![number reviews per year](datasets/reviews_full_plot.png)
 
 Because this dataset with 3410019 reviews is to big to perform to do preprocessing we are working on splitting the dataset to a choosen number of reviews.
 For the smaller dataset we will test if keeping the unbalanced distribution is better or distributing the number of reviews per category equally.
