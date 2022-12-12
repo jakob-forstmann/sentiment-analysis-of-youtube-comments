@@ -23,14 +23,14 @@ Empirical Methods in Natural Language Processing (EMNLP), 2019
 ### planning state:
 
 - did the conversion of the dataframe from csv format to a pandas dataframe
-- dropped unused columns,removed duplicated entries and convert from an five star rating into our three categories
+- dropped unused columns, removed duplicated entries and convert from an five star rating into our three categories
 - since the dataset is too huge to do prepocessing on the entire dataset we did the prepocessing only on about the first thousand
   entries of the dataset
 - we are working on splitting the dataset using relevance sampling instead of using just the first thousand entries
 - we implemented a module to get the comments from a video with a given ID using the Google API Client (we created a Google Developer Key for that purpose)
 
 ### Future planning:
-- Rishabh and Jonathan  are going to use linear Support Vector Machines (SVM) for our classification problem since they  among the best models for Sentiment    Analysis.
+- Rishabh and Jonathan are going to use linear Support Vector Machines (SVM) for our classification problem since they among the best models for Sentiment    Analysis.
 - they are going to use the data set for training and hyperparameter tuning of the SVM.
 - finally the SVM should than be tested on comments from YouTube.
 - Jakob will after he is done with the relevance sampling start to evaluate if any prepocessing is necessary for the raw comments fetched from youtube.
@@ -40,22 +40,22 @@ Empirical Methods in Natural Language Processing (EMNLP), 2019
 ### High-level-architecture design:
 
 - the conversion,the sampling and the statistics about the dataset are all in seperates classes
-- They wil,combinded with the code for the prepocessing,eventually become part of the module prepocessing
+- They will, combinded with the code for the prepocessing, eventually become part of the module prepocessing
 - to spit the entire dataset in a smaller dataset one has to follow three steps:
   - set the number of splitted file the entire dataset was split into
   - call converter.convert_to_dataframe() and converter.clean_data()
   - finally to call the code for the samling one has to use the statistics class to compute the number of reviews per sentiment
-- after the orignal dataset was split into a smaller one,we can then proceed with the prepocessing definied in prepocessing.py
+- after the orignal dataset was split into a smaller one, we can then proceed with the prepocessing definied in prepocessing.py
 
 #### preprocessing pipeline
 - The code for the code conversion into dataframe was pre-written by Jakob, we used pandas dataframe for the data processing.
-- We first tried it doing it using the whole dataset but it overloaded my RAM(8GB) then We tried different methods as follows:
+- We first tried it doing it using the whole dataset but it overloaded my RAM(8GB) then we tried different methods as follows:
   - We first tried to use the code from the paper but it does not increase the performance so we ditched that idea.
   - Installing linux as secondary OS and increasing the swapped memory but it did not work.
   - Then, We tried to split files into 9 different files and again it was the same issue.
   - We also tried to process by converting into a zip format but neither of the methods increased the performance.
   - So, We settled on using only using 1 file and after we were satisfied with the normalized data.
-- For the normalization of the data, We used NLTK library and it's different modules like:- 
+- For the normalization of the data, We used NLTK library and it's different modules like:
   - Stem: Used WordNet Lemmatizer for lematization of the tokens after tokenization.
   - Snowball: Used snowball stemmer but it reduces an token to root form more than expected at that point it is not really a human understanble word, so didn't stemmed the data.
   - Corpus: Used to remove stopwords form the dataset
@@ -120,4 +120,3 @@ Date 12/11/22
 
 
 Next steps would be: We would like to train the model using vector machines. 
-
