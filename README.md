@@ -7,7 +7,9 @@
 
 ## utilzed libraries: 
 - pandas: used to clean up the data 
-
+- NLTK: used to preprocess the data
+- re: used to implement regular expression during processing
+- googleapiclient: used to fetch comments from youtube
 ## used dataset 
 We use the Movies and TV [amazon reviews dataset](https://nijianmo.github.io/amazon/index.html) from the following paper:
 
