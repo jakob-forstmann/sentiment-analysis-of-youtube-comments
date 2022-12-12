@@ -1,4 +1,4 @@
-# Project title: sentiment-analysis-of-youtube-comments
+# Project title: sentiment-analysis-of-english- youtube-comments
 ## Team members: 
 - Kushal Gaywala, kushal.gaywala@stud.uni-heidelberg.de
 - Rishabh Tiwari, rishabh.tiwari@stud.uni-heidelberg.de
