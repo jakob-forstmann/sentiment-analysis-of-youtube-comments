@@ -36,6 +36,7 @@ Empirical Methods in Natural Language Processing (EMNLP), 2019
 - Jakob will after he is done with the relevance sampling start to evaluate if any prepocessing is necessary for the raw comments fetched from youtube.
 - Shortly after this is done we will start implement an API to acesss our model and the routes the user will use to acess the API
 - Lastly we will implement the website most likely using svelte-kit
+- Kushal will learn about how to make this project into a full-stack application from the fast-api to the front-end, back-end part and all of the other frameworks.
 
 ### High-level-architecture design:
 
@@ -49,10 +50,10 @@ Empirical Methods in Natural Language Processing (EMNLP), 2019
 
 #### preprocessing pipeline
 - The code for the code conversion into dataframe was pre-written by Jakob, we used pandas dataframe for the data processing.
-- We first tried it doing it using the whole dataset but it overloaded my RAM (8GB) then we tried different methods as follows:
+- We first tried it doing it using the whole dataset but it overloaded my RAM(8GB) then we tried different methods as follows:
   - We first tried to use the code from the paper but it does not increase the performance so we ditched that idea.
   - Installing linux as secondary OS and increasing the swapped memory but it did not work.
-  - Then, we tried to split files into 9 different files and again it was the same issue.
+  - Then, We tried to split files into 9 different files and again it was the same issue.
   - We also tried to process by converting into a zip format but neither of the methods increased the performance.
   - So, We settled on using only using 1 file and after we were satisfied with the normalized data.
 - For the normalization of the data, We used NLTK library and it's different modules like:
@@ -67,8 +68,9 @@ Empirical Methods in Natural Language Processing (EMNLP), 2019
 
 After preprocessing:
 - I cannot really see the lemmatization part of the processing in the normalized data and the stemming was overdone so did not use it, I think I am not able to understand it properly.
-,overall,reviewText
-0,positive,really happy got evangelised spoiler alert==happy ending liked since started bit worrisome yeah great story missionary movie really short half hour still great
+| overall | verified |
+| --------| ---------|
+| postive |really happy got evangelised spoiler alert==happy ending liked since started bit worrisome yeah great story missionary movie really short half hour still great|
 
 ### Data-Analysis:
 
