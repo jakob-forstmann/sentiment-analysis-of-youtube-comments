@@ -1,5 +1,8 @@
+import random
+import gzip
+import json
+
 import pandas as pd
-from dataset_statistics import DataSet
 
 
 class Converter():
@@ -20,18 +23,10 @@ class Converter():
             4: "positive",
             5: "positive"
         }
+        self.UNIX_TIMESTAMP_2015 = 1420070400 # calculated on https://www.unixtimestamp.com/
 
-    def file_to_dataframe(self, file_names_prefix, files_extension) -> []:
-        """ converts each splitted_file into one dataframe
-            returns a list of dataframes """
-        if len(self._converted_dataframes) == 0:
-            for i in range(0, DataSet.number_of_splitted_files):
-                file_name = file_names_prefix+str(i)+files_extension
-                rating = pd.read_json(file_name, encoding="ascii", lines=True)
-                self._converted_dataframes.append(rating)
-        return self._converted_dataframes
 
-    def clean_data(self, operations=["delete", "convert", "remove duplicates"]) -> []:
+    def clean_data(self, rating: pd.DataFrame, operations=["delete", "convert", "remove duplicates"]) -> pd.DataFrame:
         """ clean a converted dataframe with the passed functions
 
             supported functions are:
@@ -39,13 +34,12 @@ class Converter():
             convert an amazon rating into three categories:positive, neutral, negative
             remove reviews with the same rating and the same review text
         """
-        for rating in self._converted_dataframes:
-            for operation in operations:
-                try:
-                    self.funcs_to_clean_data[operation](rating)
-                except KeyError(operation):
-                    print(f"operation {operation} not supported")
-        return self._converted_dataframes
+        for operation in operations:
+            try:
+                self.funcs_to_clean_data[operation](rating)
+            except KeyError(operation):
+                print(f"operation {operation} not supported")
+        return rating
 
     def convert_star_rating(self, rating: pd.DataFrame):
         """ converts a five star rating into three categories: negative, neutral and positive """
@@ -67,3 +61,27 @@ class Converter():
         rating = rating[review_text.isin(review_text[duplicated_reviews])
                         ].sort_values("reviewText")
         rating.drop_duplicates(["reviewText", "overall"], inplace=True)
+
+    def save_dataset(self, source_files: list[str], dest_file: str, n_reviews=2000):
+        data = []
+        for source in source_files:
+            n_reviews_last_five_years = 0
+            with gzip.open(source) as file:
+                for line in file:
+                    this_review = json.loads(line.strip())
+                    if this_review['unixReviewTime'] < self.UNIX_TIMESTAMP_2015:
+                        n_reviews_last_five_years += 1
+            share = min(n_reviews / n_reviews_last_five_years, 1)
+
+            with gzip.open(source) as file:
+                for line in file:
+                    this_review = json.loads(line.strip())
+                    if this_review['unixReviewTime'] < self.UNIX_TIMESTAMP_2015 and random.random() < share:
+                        data.append(this_review)
+        random.shuffle(data)
+
+        df = pd.DataFrame.from_dict(data)
+        df = self.clean_data(df)
+
+        df.to_csv(dest_file)
+
