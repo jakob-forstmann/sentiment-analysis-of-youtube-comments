@@ -62,24 +62,26 @@ class Converter():
                         ].sort_values("reviewText")
         rating.drop_duplicates(["reviewText", "overall"], inplace=True)
 
-    def save_dataset(self, source_file: str, dest_file: str, n_reviews=2000):
-        n_reviews_last_five_years = 0
-        with gzip.open(source_file) as file:
-            for line in file:
-                this_review = json.loads(line.strip())
-                if this_review['unixReviewTime'] < self.UNIX_TIMESTAMP_2015:
-                    n_reviews_last_five_years += 1
-        share = min(n_reviews / n_reviews_last_five_years, 1)
-        
+    def save_dataset(self, source_files: list[str], dest_file: str, n_reviews=2000):
         data = []
-        with gzip.open(source_file) as file:
-            for line in file:
-                this_review = json.loads(line.strip())
-                if this_review['unixReviewTime'] < self.UNIX_TIMESTAMP_2015 and random.random() < share:
-                    
-                    data.append(this_review)
+        for source in source_files:
+            n_reviews_last_five_years = 0
+            with gzip.open(source) as file:
+                for line in file:
+                    this_review = json.loads(line.strip())
+                    if this_review['unixReviewTime'] < self.UNIX_TIMESTAMP_2015:
+                        n_reviews_last_five_years += 1
+            share = min(n_reviews / n_reviews_last_five_years, 1)
+
+            with gzip.open(source) as file:
+                for line in file:
+                    this_review = json.loads(line.strip())
+                    if this_review['unixReviewTime'] < self.UNIX_TIMESTAMP_2015 and random.random() < share:
+                        data.append(this_review)
+        random.shuffle(data)
 
         df = pd.DataFrame.from_dict(data)
         df = self.clean_data(df)
 
         df.to_csv(dest_file)
+
