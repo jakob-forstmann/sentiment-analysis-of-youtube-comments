@@ -31,4 +31,5 @@ for data in results['items']:
 all_comments_string = "\n".join(all_comments)
 with open("data/labeled_youtube_data.csv", "w") as file:
     file.write(all_comments_string)
+   
 
