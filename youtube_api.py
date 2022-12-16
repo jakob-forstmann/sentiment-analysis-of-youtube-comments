@@ -5,7 +5,7 @@ class youtube_API:
     def __init__(self):
         self.youtube = build('youtube', 'v3', developerKey=KEY)
     
-    def get_comments_from(self, video_ID, include_comments=False):
+    def get_comments_from(self, video_ID, include_replies=False):
         fetch_comments =self.youtube.commentThreads().list(
             part = ["snippet", "replies"],
             videoId=video_ID,
@@ -15,7 +15,7 @@ class youtube_API:
         comments = []
         for item in response['items']:
             comments.append(item['snippet']['topLevelComment']['snippet']['textDisplay'])
-            if include_comments and 'replies' in item.keys():
+            if include_replies and 'replies' in item.keys():
                 for reply in item['replies']["comments"]:
                     print("It works!")
                     comments.append(reply['snippet']['textDisplay'])
