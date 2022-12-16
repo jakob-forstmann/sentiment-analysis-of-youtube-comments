@@ -1,5 +1,6 @@
 from api_KEY import KEY
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 class youtube_API:
     def __init__(self):
@@ -11,14 +12,18 @@ class youtube_API:
             videoId=video_ID,
             textFormat="plainText",
         )
-        response = fetch_comments.execute()
+        
         comments = []
-        for item in response['items']:
-            comments.append(item['snippet']['topLevelComment']['snippet']['textDisplay'])
-            if include_replies and 'replies' in item.keys():
-                for reply in item['replies']["comments"]:
-                    print("It works!")
-                    comments.append(reply['snippet']['textDisplay'])
+        try:
+            response = fetch_comments.execute()
+        except HttpError:
+            pass
+        else:
+            for item in response['items']:
+                comments.append(item['snippet']['topLevelComment']['snippet']['textDisplay'])
+                if include_replies and 'replies' in item.keys():
+                    for reply in item['replies']["comments"]:
+                        comments.append(reply['snippet']['textDisplay'])
         return comments
         
     def __del__(self):
