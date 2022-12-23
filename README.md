@@ -126,7 +126,7 @@ Next steps would be: We would like to train the model using vector machines.
 
 16/12/22
 
-Contribution by Rishabh and Jonathan
+Contribution by Rishabh and Jonathan:
 
 1) We extracted the first 15 youtube comments from the random youtube videos irrespective of its genre.
 2) We took approximately 3000 comments.
@@ -134,7 +134,7 @@ Contribution by Rishabh and Jonathan
 
 23/12/22
 
-Contribution by Rishabh and Jonathan
+Contribution by Rishabh and Jonathan: 
 
 1) We finished extracting the 3000 youtube comments.
 2) We pre processed the youtube comments to make it easier for labelling.
