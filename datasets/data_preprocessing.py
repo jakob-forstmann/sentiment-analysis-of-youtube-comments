@@ -106,7 +106,9 @@ def normalize_reviews(reviews):
 
     return preprocessed_reviews
 
-clean_ratings = prepare_data()
-normalized_review = normalize_reviews(clean_ratings['reviewText'])
-clean_ratings["reviewText"] = normalized_review
-clean_ratings.to_csv('./normalized_data')
+if __name__ == "__main__":
+
+    clean_ratings = prepare_data()
+    normalized_review = normalize_reviews(clean_ratings['reviewText'])
+    clean_ratings["reviewText"] = normalized_review
+    clean_ratings.to_csv('./normalized_data')
