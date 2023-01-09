@@ -6,19 +6,25 @@ from elasticsearch import RequestError
 
 class elasticSearchAPI():
     def __init__(self, index_name,mapping):
-        self.es = Elasticsearch(es_url)
+        try:
+            self.es = Elasticsearch(es_url)
+            self.es.info()
+        except ConnectionError as err:
+            print(f"Connection to elastic search failed with message {err}")
         self.index_name = index_name
         self.allowed_columns = list(mapping["properties"].keys())
         self.mapping = mapping
 
     def create_index(self):
-        self.es.indices.delete(self.index_name)
         try:
             self.es.indices.create(index=self.index_name,mappings=self.mapping)
         except RequestError as err:
-            print(f"error creating index{err}")
+            if err.status_code ==400:
+                print(f"inserting into existing index {self.index_name}")
+            else:
+                print(f"error creating index{err}")
        
-    def store_reviews(self,reviews: pd.DataFrame,mapping:{}):
+    def store_reviews(self,reviews: pd.DataFrame):
         data = reviews.to_dict(orient="list")
         try:
             self.create_index()
