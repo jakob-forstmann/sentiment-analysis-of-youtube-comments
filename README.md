@@ -136,9 +136,14 @@ Contribution by Rishabh and Jonathan:
 
 Contribution by Rishabh and Jonathan: 
 
-1) We finished extracting the 3000 youtube comments.
+1) We finished extracting the 2500 youtube comments.
 2) We pre processed the youtube comments to make it easier for labelling.
 3) We started labelling the comments manually as Postive, negative and Neutral for further training. 
 
 
 After this we intend to start training our models using vector machines. 
+
+
+16/01/23
+
+We had a team discussion where for the better results and accuracy, we decided to try out different pre-processing methods using the code train.py in order to achieve the best results and the working of the vector machines and our training model. 
