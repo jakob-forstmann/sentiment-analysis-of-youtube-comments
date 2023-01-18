@@ -1,29 +1,19 @@
-import re
-
-import nltk
-from nltk.stem.porter import PorterStemmer
-from nltk.corpus import stopwords as nltk_stopwords
-
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV
+import nltk
+from nltk.corpus import stopwords as nltk_stopwords
+from nltk.stem import LancasterStemmer
+from nltk.stem import WordNetLemmatizer
+
 import pandas as pd
+import json 
 from elastic_search_API import elasticSearchAPI
-from spacy_pipeline import standardPipeline
-
+import test_different_pipelines as pipelines
 nltk.download('stopwords')
-
-class StemTokenizer:
-    def __init__(self, stopwords):
-        self.tokenizer = re.compile("\w\w+")
-        self.stopwords = set(stopwords)
-        self.ps = PorterStemmer()
-    def __call__(self, doc):
-        tokens = self.tokenizer.findall(doc)
-        return [self.ps.stem(t) for t in tokens if not t in self.stopwords]
 
 def load_dataset()->pd.DataFrame:
     amazon_mapping = {
@@ -39,9 +29,11 @@ def load_dataset()->pd.DataFrame:
     es_API = elasticSearchAPI("amazon_reviews",amazon_mapping)
     return es_API.load_reviews()
     
-def train_model(dataset:pd.DataFrame,grid_search_cv:GridSearchCV):
-    X = dataset.loc[:, "reviewText"]
-    y = dataset.loc[:, "overall"]
+def train_model_with(tokenizer):
+    dataset = load_dataset()
+    grid_search_cv = init_model(tokenizer)
+    X = dataset.loc[0:1000, "reviewText"]
+    y = dataset.loc[0:1000, "overall"]
     grid_search_cv.fit(X, y)
     print(grid_search_cv.cv_results_)
 
@@ -53,6 +45,8 @@ def init_model(preprocesser)->GridSearchCV:
         ]
     return GridSearchCV(pipeline, param_grid)
 
-dataset = load_dataset()
-grid_search_cv = init_model(StemTokenizer(nltk_stopwords.words('english')))
-#train_model(dataset,grid_search_cv)
+
+train_model_with(pipelines.StemTokenizer(lemmatizer=WordNetLemmatizer()))
+train_model_with(pipelines.StemTokenizer(stemmer=LancasterStemmer(),lemmatizer=WordNetLemmatizer()))
+train_model_with(pipelines.StandardPipeline)
+train_model_with(pipelines.StandardPipeline(nltk_stopwords.words('english')))
