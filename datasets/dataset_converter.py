@@ -5,11 +5,11 @@ import json
 import pandas as pd
 
 def convert_star_rating(rating: pd.DataFrame):
-    """ converts a five star rating into three categories: negative, neutral and positive """
+    """ converts a five star rating into two  categories: negative and positive """
     star_rating_converter = {
         1: "negative",
         2: "negative",
-        3: "neutral",
+        3: "negative",
         4: "positive",
         5: "positive"
     }
