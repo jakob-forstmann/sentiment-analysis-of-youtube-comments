@@ -1,9 +1,3 @@
-import re
-
-import nltk
-from nltk.stem.porter import PorterStemmer
-from nltk.corpus import stopwords as nltk_stopwords
-
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
@@ -11,48 +5,118 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV
-
+import nltk
+from nltk.corpus import stopwords as nltk_stopwords
+from nltk.stem import LancasterStemmer
+from nltk.stem import WordNetLemmatizer
 import pandas as pd
-
+from elastic_search_API import elasticSearchAPI
+import test_different_pipelines as pipelines
 nltk.download('stopwords')
+nltk.download('wordnet')
 
-class StemTokenizer:
-    def __init__(self, stopwords):
-        self.tokenizer = re.compile("\w\w+")
-        self.stopwords = set(stopwords)
-        self.ps = PorterStemmer()
-    def __call__(self, doc):
-        tokens = self.tokenizer.findall(doc)
-        return [self.ps.stem(t) for t in tokens if not t in self.stopwords]
+# NOTE: For testing different pipelines only the first 100 entries of the datasets
+# are used so each training of the model does not take 20 minute on my machine
+training_results = []
 
-pipeline = Pipeline([('vect', TfidfVectorizer()), ('clf', SVC(kernel='poly'))])
 
-param_grid = [
-    {},
+def load_dataset() -> pd.DataFrame:
+    amazon_mapping = {
+        "dynamic": "strict",
+        "properties": {
+            "overall":    {"type": "text"},
+            "reviewText":  {"type": "keyword"},
+        }
+    }
+    # TODO:use the same instance of class elasticSearchAPI as in the file main.py
+    # currently not possible because main.py requires many files stored in the folder datasets
+    # after putting the code into a module importing from main.py shouldn´t be a problem anymore
+    es_API = elasticSearchAPI("amazon_reviews", amazon_mapping)
+    return es_API.load_reviews()
+
+
+def train_model_with(tokenizer):
+    dataset = load_dataset()
+    grid_search_cv = init_model(tokenizer)
+    X = dataset.loc[0:100, "reviewText"]
+    y = dataset.loc[0:100, "overall"]
+    grid_search_cv.fit(X, y)
+    training_results.append(grid_search_cv.cv_results_)
+
+
+def init_model(preprocesser) -> GridSearchCV:
+    pipeline = Pipeline([('vect', TfidfVectorizer()), ('clf', LinearSVC())])
+    param_grid = [
+        {'vect__tokenizer': [preprocesser, None]},
+        {'clf': [LinearSVC(), RandomForestClassifier(), MLPClassifier()]}
     ]
-grid_search_cv = GridSearchCV(pipeline, param_grid)
+    return GridSearchCV(pipeline, param_grid)
 
-train_dataset = pd.read_csv('data/our_dataset_pos_neg.csv')
-test_dataset = pd.read_csv('~/Downloads/Youtube Comments - Copy of Sheet2 1.csv')
-print(test_dataset.head)
-X_train = train_dataset.loc[:, "reviewText"]
-y_train = train_dataset.loc[:, "overall"]
 
-best_model = pipeline.fit(X_train, y_train)
+#grid_search_cv = init_model(pipelines.StemTokenizer())
+#best_model = grid_search_cv.fit(X_train, y_train)
 #print(grid_search_cv.cv_results_)
 
 #print()
 
-X_test = test_dataset.iloc[0:300, 0]
-y_test = test_dataset.iloc[0:300, 1]
+#X_test = test_dataset.iloc[0:300, 0]
+#y_test = test_dataset.iloc[0:300, 1]
 
-prediction = best_model.predict(X_test)
-test_score = best_model.score(X_test, y_test)
+#prediction = best_model.predict(X_test)
+#test_score = best_model.score(X_test, y_test)
 
-pos_share = y_test[y_test == 'positive'].size / 300
+#pos_share = y_test[y_test == 'positive'].size / 300
 
-print(pos_share)
+#print(pos_share)
 
-for t, p in zip(y_test, prediction):
-    print(t, p)
-print(test_score)
+#for t, p in zip(y_test, prediction):
+ #   print(t, p)
+#print(test_score)
+
+custom_stopwords = set(["delivery time", "product",
+                       "price", "credit card", "video", "refund"])
+
+
+# with Porter Stemmer and only alphanumeric characters
+train_model_with(pipelines.StemTokenizer())
+
+# with Porter Stemmer, only alphanumeric characters and Lemmatizer
+stem_tokenizer = pipelines.StemTokenizer()
+stem_tokenizer.enable_lemmatizer = True
+stem_tokenizer.lemmatizer = WordNetLemmatizer()
+train_model_with(stem_tokenizer)
+
+# with Lancaster Stemmer and only alphanumeric characters
+stem_tokenizer = pipelines.StemTokenizer()
+stem_tokenizer.lemmatizer = LancasterStemmer()
+train_model_with(stem_tokenizer)
+
+# with Porter stemmer, only alphanumeric characters,custom stopwords and Lemmatizer
+stem_tokenizer = pipelines.StemTokenizer()
+stem_tokenizer.enable_lemmatizer = True
+stem_tokenizer.lemmatizer = WordNetLemmatizer()
+stem_tokenizer.stopwords.update(custom_stopwords)
+train_model_with(stem_tokenizer)
+
+stem_tokenizer = pipelines.StemTokenizer(r"(\w+)|((?::|;|=)(?:-)?(?:\)|D|P))")
+stem_tokenizer.lemmatizer = WordNetLemmatizer()
+stem_tokenizer.stopwords.update(custom_stopwords)
+train_model_with(stem_tokenizer)
+
+# with stopwords from spacy and only alphanumeric characters
+train_model_with(pipelines.StandardPipeline())
+
+
+# with stopwords from spacy,only alphanumeric characters and lemmatizer
+spacy_standard_pipeline = pipelines.StandardPipeline()
+spacy_standard_pipeline.enable_lemmatizer = True
+train_model_with(spacy_standard_pipeline)
+
+# with custom stopwords,only alphanumeric characters and lemmatizer
+spacy_pipeline = pipelines.StandardPipeline()
+spacy_pipeline.stop_words = spacy_pipeline.stop_words.union(custom_stopwords)
+spacy_standard_pipeline.enable_lemmatizer = True
+train_model_with(spacy_pipeline)
+
+training_results_df = pd.DataFrame(training_results)
+training_results_df.to_csv("trainig_results")

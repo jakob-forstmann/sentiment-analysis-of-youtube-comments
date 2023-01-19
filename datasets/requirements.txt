@@ -4,4 +4,4 @@ matplotlib
 nltk
 #googleapiclient
 google-api-python-client
-elasticsearch=7.17.7
+elasticsearch==7.17.7
