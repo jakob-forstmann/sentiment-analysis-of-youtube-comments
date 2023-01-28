@@ -1,4 +1,6 @@
 <script lang="ts">
+  export let name;
+
   import Navbar from "./components/Navbar.svelte";
   import Searchbar from "./components/Searchbar.svelte";
   import VideoCard from "./components/VideoCard.svelte";
@@ -6,7 +8,7 @@
   import Footer from "./components/Footer.svelte";
 </script>
 
-<Navbar />
+<Navbar {name} />
 <main>
   <Searchbar />
   <VideoCard />

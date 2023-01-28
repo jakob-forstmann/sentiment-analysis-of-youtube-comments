@@ -1,8 +1,9 @@
 <script>
+  export let name;
 </script>
 
 <navbar class="navbar">
-  <div class="logo"><h1>YouTube Comments</h1></div>
+  <div class="logo"><h1>{name}</h1></div>
 </navbar>
 
 <style>

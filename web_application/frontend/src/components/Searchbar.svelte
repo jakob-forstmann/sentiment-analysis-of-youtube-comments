@@ -1,9 +1,22 @@
 <script>
-  let searchUrl = "";
-  async function searchVideo(event) {}
-</script>
+  import { fetchAllCommentsFromVideo } from "../api";
+  import { allVideoComments } from "../stores/CommentStore";
 
-{searchUrl}
+  let searchUrl = "";
+
+  async function searchVideo(event) {
+    const videoId = searchUrl.split("=")[1].split("&")[0];
+
+    const {
+      data: { videoComments, message },
+      status,
+    } = await fetchAllCommentsFromVideo(videoId);
+
+    if (status == 200) {
+      allVideoComments.set(videoComments);
+    }
+  }
+</script>
 
 <div class="main-search-area">
   <div class="search-area">
