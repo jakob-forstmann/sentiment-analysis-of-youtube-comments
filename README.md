@@ -142,3 +142,10 @@ Contribution by Rishabh and Jonathan:
 
 
 After this we intend to start training our models using vector machines. 
+
+
+06/02/2023
+
+Contribution by Rishabh and Jonathan:
+
+We are done with pre-processing and training the model. 
