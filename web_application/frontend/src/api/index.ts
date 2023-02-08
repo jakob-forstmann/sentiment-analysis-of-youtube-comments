@@ -6,5 +6,4 @@ const API = axios.create({
 
 export const connectApi = () => API.get(`/`);
 
-export const fetchAllCommentsFromVideo = (videoId) =>
-  API.get(`fetch_all_comments/${videoId}`);
+export const fetchAllCommentsFromVideo = (videoId) => API.get(`fetch_all_comments/${videoId}`);

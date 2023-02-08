@@ -1,8 +1,7 @@
-from fastapi import FastAPI;
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import sys
-# sys.path.insert(1, ".") # inserting path to import the module
-from API.youtube_api import Youtube_API
+from API.Youtube import Youtube
+from API.Comment import Comment
 
 # Initialization of FastAPI #
 app = FastAPI()
@@ -12,26 +11,26 @@ allowed_origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = allowed_origins,
-    allow_credentials = True,
-    allow_methods = ["*"],
-    allow_headers = ["*"]
+    allow_origins=allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
 )
 
-# Initialization of YouTubeAPI #
-youtube_api = Youtube_API()
+# Initialization of Classes #
+youtube = Youtube()
+comment = Comment()
 
-# video_id1 = "1CBQM2X8BZQ" # Actual on YouTube 3026
-# video_id2 = "hewcSfw89e8" # Actual on YouTube 220
-# video_id3 = "SKAIwoOt5qs" # Actual on YouTube 3408
-
+# No need, but kept it for debug purposes #
 @app.get("/")
 async def root():
     return {"message": "App Connected!"}
 
+# Responds with Classified comments of Video Id #
 @app.get("/fetch_all_comments/{video_id}")
 async def get_youtube_video_comments(video_id: str):
-    all_comments = youtube_api.get_all_comments_from_video(video_id)
-    if all_comments:
-        return {'videoComments': all_comments, "message": "All Comments Fetched!"}
+    all_comments = youtube.get_all_comments_from_video(video_id)
+    classified_comments = comment.get_classified_comments(all_comments)
+    if classified_comments:
+        return {'videoComments': classified_comments, "message": "All Comments Fetched!"}
     return {"message": "Comments Not Fetched!"}

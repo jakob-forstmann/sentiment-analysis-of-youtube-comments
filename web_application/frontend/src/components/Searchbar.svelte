@@ -11,7 +11,7 @@
       data: { videoComments, message },
       status,
     } = await fetchAllCommentsFromVideo(videoId);
-
+    console.log(message)
     if (status == 200) {
       allVideoComments.set(videoComments);
     }
