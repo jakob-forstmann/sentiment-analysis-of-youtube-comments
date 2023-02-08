@@ -3,47 +3,46 @@
   import { allVideoComments } from "../stores/CommentStore";
   import CommentsCard from "./CommentsCard.svelte";
 
-  let videoComments = [];
-  let commentsClasses = [];
-
+  let classifiedCommentsDetails = [];
+  const calculatePercentage = (length, total) => Math.round((length * 100) / total);
   const unSubscribeAllVideoComments = allVideoComments.subscribe((comments) => {
-    videoComments = comments;
-    const lengthOfComments = videoComments.length;
-    const negative = lengthOfComments * 0.2;
-    const positive = negative + lengthOfComments * 0.5;
-    const neutral = positive + lengthOfComments * 0.3;
+    if (!comments.length) {
+      return;
+    }
+    comments = JSON.parse(comments);
 
-    commentsClasses = [
+    const negative = comments.negative, positive = comments.positive, neutral = comments.neutral;
+    const noOfNegative = comments.negative.length, noOfPositive = comments.positive.length, noOfNeutral = comments.neutral.length;
+    const total = noOfNegative + noOfPositive + noOfNeutral;
+
+    classifiedCommentsDetails = [
       {
         head: "Negative",
-        percentage: "20",
-        comments: videoComments.slice(0, negative),
+        percentage: calculatePercentage(noOfNegative, total),
+        comments: negative,
       },
       {
         head: "Positive",
-        percentage: "50",
-        comments: videoComments.slice(negative, positive),
+        percentage: calculatePercentage(noOfPositive, total),
+        comments: positive,
       },
       {
         head: "Neutral",
-        percentage: "30",
-        comments: videoComments.slice(positive, neutral),
+        percentage: calculatePercentage(noOfNeutral, total),
+        comments: neutral,
       },
     ];
-
-    console.log("Second: ", videoComments[videoComments.length - 1]);
-    console.log("First: ", videoComments[0]);
   });
 
   onDestroy(unSubscribeAllVideoComments);
 </script>
 
 <div class="classification">
-  {#each commentsClasses as commentsClass}
+  {#each classifiedCommentsDetails as commentDetail}
     <CommentsCard
-      head={commentsClass.head}
-      comments={commentsClass.comments}
-      percentage={commentsClass.percentage}
+      head={commentDetail.head}
+      comments={commentDetail.comments}
+      percentage={commentDetail.percentage}
     />
   {/each}
 </div>
