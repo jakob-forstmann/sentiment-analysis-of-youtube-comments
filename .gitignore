@@ -1,3 +1,4 @@
 data/
 __pycache__/
+modul-preparation/credentials.py
 .venv

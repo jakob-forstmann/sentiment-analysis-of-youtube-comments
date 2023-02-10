@@ -1,6 +1,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
+from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV
@@ -13,7 +14,6 @@ from elastic_search_API import elasticSearchAPI
 import test_different_pipelines as pipelines
 nltk.download('stopwords')
 nltk.download('wordnet')
-
 
 # NOTE: For testing different pipelines only the first 100 entries of the datasets
 # are used so each training of the model does not take 20 minute on my machine
@@ -52,6 +52,26 @@ def init_model(preprocesser) -> GridSearchCV:
     ]
     return GridSearchCV(pipeline, param_grid)
 
+
+#grid_search_cv = init_model(pipelines.StemTokenizer())
+#best_model = grid_search_cv.fit(X_train, y_train)
+#print(grid_search_cv.cv_results_)
+
+#print()
+
+#X_test = test_dataset.iloc[0:300, 0]
+#y_test = test_dataset.iloc[0:300, 1]
+
+#prediction = best_model.predict(X_test)
+#test_score = best_model.score(X_test, y_test)
+
+#pos_share = y_test[y_test == 'positive'].size / 300
+
+#print(pos_share)
+
+#for t, p in zip(y_test, prediction):
+ #   print(t, p)
+#print(test_score)
 
 custom_stopwords = set(["delivery time", "product",
                        "price", "credit card", "video", "refund"])
