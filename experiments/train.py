@@ -6,7 +6,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV, train_test_split
 import nltk
-from nltk.corpus import stopwords as nltk_stopwords
 from nltk.stem import LancasterStemmer
 from nltk.stem import WordNetLemmatizer
 import pandas as pd
@@ -20,6 +19,7 @@ nltk.download('wordnet')
 training_results = []
 
 
+# TODO: the names of the fields should be given as argument
 def load_dataset() -> pd.DataFrame:
     amazon_mapping = {
         "dynamic": "strict",
