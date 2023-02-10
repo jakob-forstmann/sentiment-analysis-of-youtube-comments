@@ -4,13 +4,13 @@ from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import GridSearchCV, train_test_split
 import nltk
 from nltk.corpus import stopwords as nltk_stopwords
 from nltk.stem import LancasterStemmer
 from nltk.stem import WordNetLemmatizer
 import pandas as pd
-from elastic_search_API import elasticSearchAPI
+from modul_preparation.elastic_search_API import elasticSearchAPI
 import test_different_pipelines as pipelines
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -52,26 +52,6 @@ def init_model(preprocesser) -> GridSearchCV:
     ]
     return GridSearchCV(pipeline, param_grid)
 
-
-#grid_search_cv = init_model(pipelines.StemTokenizer())
-#best_model = grid_search_cv.fit(X_train, y_train)
-#print(grid_search_cv.cv_results_)
-
-#print()
-
-#X_test = test_dataset.iloc[0:300, 0]
-#y_test = test_dataset.iloc[0:300, 1]
-
-#prediction = best_model.predict(X_test)
-#test_score = best_model.score(X_test, y_test)
-
-#pos_share = y_test[y_test == 'positive'].size / 300
-
-#print(pos_share)
-
-#for t, p in zip(y_test, prediction):
- #   print(t, p)
-#print(test_score)
 
 custom_stopwords = set(["delivery time", "product",
                        "price", "credit card", "video", "refund"])
@@ -119,4 +99,26 @@ spacy_standard_pipeline.enable_lemmatizer = True
 train_model_with(spacy_pipeline)
 
 training_results_df = pd.DataFrame(training_results)
-training_results_df.to_csv("trainig_results")
+training_results_df.to_csv("trainig_results_different_preprocessing.csv")
+
+youtube_data = load_dataset()
+comments_train, comments_test, sentiment_train, sentiment_test = train_test_split(
+    youtube_data,
+    test_size=0.25,
+    random_state=42,
+)
+
+pipeline = Pipeline([('vect', TfidfVectorizer()), ('clf', LinearSVC())])
+param_grid = {
+    'vect__ngram_range': [(1, 1), (1, 2)],
+    'vect__sublinear_tf': [False, True],
+}
+
+grid_search_cv = GridSearchCV(pipeline, param_grid)
+best_model = grid_search_cv.fit(youtube_data.loc[:, 'comments'], youtube_data.loc[:, 'sentiment'])
+test_accuracy = best_model.score(comments_test, sentiment_test)
+
+pd.DataFrame(grid_search_cv.cv_results_).to_csv('training_results_different_hyperparameters.csv')
+
+print("Training finished")
+print(f"Final model as test accuracy of {test_accuracy:2%}.")
