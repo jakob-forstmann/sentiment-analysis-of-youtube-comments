@@ -1,10 +1,9 @@
- pip install google-api-python-client
-
+from API_KEYS import YOUTUBE_API_KEY
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import csv
 
-api_key = "Youtube API"
+api_key = YOUTUBE_API_KEY
 api_service_name = "youtube"
 api_version = "v3"
 
@@ -13,7 +12,7 @@ youtube = build(api_service_name, api_version, developerKey=api_key)
 request = youtube.commentThreads().list(
     part="snippet",
     videoId="hj4kzcdd8ZE",
-    maxResults=15,
+    maxResults=1000,
     textFormat="plainText"
 )
 response = request.execute()

@@ -1,7 +1,0 @@
-os
-re
-numpy
-pandas
-matplotlib
-nltk
-googleapiclient
