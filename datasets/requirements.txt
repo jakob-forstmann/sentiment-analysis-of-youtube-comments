@@ -1,7 +1,7 @@
-os
-re
 numpy
 pandas
 matplotlib
 nltk
-googleapiclient
+#googleapiclient
+google-api-python-client
+elasticsearch==7.17.7
