@@ -52,8 +52,11 @@ class elasticSearchAPI():
         response = self.es.search(index=self.index_name)
         response_data = response["hits"]["hits"]
         final_columns = {}
-        data = response_data[0]["_source"]
-        for name in self.allowed_columns:
-            column = data[name]
-            final_columns[name] = column
+        if response["hits"]["total"]["value"]<=0:
+            print("no results")
+        else:
+            data = response_data[0]["_source"]
+            for name in self.allowed_columns:
+                column = data[name]
+                final_columns[name] = column
         return pd.DataFrame(final_columns)
