@@ -1,7 +1,0 @@
-numpy
-pandas
-matplotlib
-nltk
-#googleapiclient
-google-api-python-client
-elasticsearch==7.17.7
