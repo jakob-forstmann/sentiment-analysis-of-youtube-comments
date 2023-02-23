@@ -28,7 +28,8 @@ def filter_duplicates_entries(rating: pd.DataFrame):
     rating.drop_duplicates(["reviewText", "overall"],inplace=True)
 
 def clean_data(rating: pd.DataFrame, operations=[delete_unused_columns,convert_star_rating,filter_duplicates_entries]) -> pd.DataFrame:
-    """ clean a converted dataframe with the passed functions
+    """ 
+    clean a converted dataframe with the passed functions
     supported functions are:
     delete unused columns
     convert an amazon rating into three categories:positive, neutral, negative
@@ -41,6 +42,9 @@ def clean_data(rating: pd.DataFrame, operations=[delete_unused_columns,convert_s
     return rating
 
 def save_dataset(source_files: list[str],dest_file:str, n_reviews=2000):
+    """
+    randomly picks 2000 reviews from different categories stored in source_files.
+    """
     data = []
     # calculated on https://www.unixtimestamp.com/
     UNIX_TIMESTAMP_2015 = 1420070400
@@ -61,4 +65,4 @@ def save_dataset(source_files: list[str],dest_file:str, n_reviews=2000):
     df = pd.DataFrame.from_dict(data)
     df = clean_data(df)
     df.to_csv(dest_file,index=False)
-    return df 
+    return df

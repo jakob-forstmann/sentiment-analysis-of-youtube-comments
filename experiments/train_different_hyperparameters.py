@@ -1,16 +1,9 @@
-from sklearn.svm import SVC
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV, train_test_split
-import nltk
-from nltk.stem import LancasterStemmer
-from nltk.stem import WordNetLemmatizer
 import pandas as pd
-import argparse
-from train import load_dataset
+from train_different_pipelines import load_dataset
 
 youtube_data = load_dataset()
 comments_train, comments_test, sentiment_train, sentiment_test = train_test_split(

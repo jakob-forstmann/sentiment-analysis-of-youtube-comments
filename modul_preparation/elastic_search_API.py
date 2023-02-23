@@ -1,8 +1,8 @@
 import pandas as pd
-from credentials import es_url
+from itertools import count
 from elasticsearch import Elasticsearch
 from elasticsearch import RequestError,ConflictError
-from itertools import count
+from credentials import es_url
 
 class elasticSearchAPI():
     """ 

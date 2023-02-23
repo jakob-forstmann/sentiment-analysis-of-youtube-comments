@@ -1,8 +1,8 @@
-from elastic_search_API import elasticSearchAPI
-from dataset_converter import save_dataset
-import pandas as pd
 from os import path,strerror
 import errno
+from elastic_search_API import elasticSearchAPI
+from experiments.training_with_Amazon_reviews.dataset_converter import save_dataset
+import pandas as pd
 
 def prepare_mapping(first_column,second_column):
     """
@@ -50,14 +50,19 @@ def load_reviews_from_disk(file_path:str):
         df_list = pd.read_csv(file_path)
     return df_list
 
+def get_available_indices():
+    return {
+            "youtube": youtube_index,
+            "amazon": amazon_index
+            }
 
-if __name__ == "__main__":
-    amazon_reviews = load_reviews_from_disk("../data/amazon_reviews.csv")
-    amazon_mapping = prepare_mapping("overall","reviewText")
-    amazon_index = elasticSearchAPI("amazon_reviews",amazon_mapping)
-    amazon_index.store_reviews(amazon_reviews)
 
-    youtube_comments = load_comments_from_disk("../data/youtube_data.csv")
-    youtube_mapping = prepare_mapping("comment","sentiment")
-    youtube_index = elasticSearchAPI("youtube_comments", youtube_mapping)
-    youtube_index.store_reviews(youtube_comments)
+amazon_reviews = load_reviews_from_disk("../data/amazon_reviews.csv")
+amazon_mapping = prepare_mapping("overall","reviewText")
+amazon_index = elasticSearchAPI("amazon_reviews",amazon_mapping)
+amazon_index.store_reviews(amazon_reviews)
+youtube_comments = load_comments_from_disk("../data/youtube_data.csv")
+youtube_mapping = prepare_mapping("comment","sentiment")
+youtube_index = elasticSearchAPI("youtube_comments", youtube_mapping)
+youtube_index.store_reviews(youtube_comments)
+

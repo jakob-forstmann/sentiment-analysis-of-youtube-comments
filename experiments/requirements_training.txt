@@ -1,0 +1,7 @@
+numpy
+pandas
+matplotlib
+nltk
+spacy
+scikit-learn 
+elasticsearch==7.17.7
