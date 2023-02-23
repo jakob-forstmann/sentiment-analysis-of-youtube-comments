@@ -17,13 +17,26 @@
 - re: used to implement regular expression during processing
 - googleapiclient: used to fetch comments from youtube
 
-## used dataset 
-We use the Movies and TV [amazon reviews dataset](https://nijianmo.github.io/amazon/index.html) from the following paper:
+## used dataset:
+We trained our model with two different datasets and compared the results.
+Our initial approach was to use the [amazon reviews dataset](https://nijianmo.github.io/amazon/index.html).
+Since this dataset is fairly large we limited ourself to the 5 core datasets and chose five categories. From each category we included  about 2000 reviews in our training dataset.The five chosen categories are:
+- All Beauty 
+- Electronics 
+- Home and Kitchen 
+- Movie and TV 
+- Software
+
+The dataset originates from the following paper:
 
 Justifying recommendations using distantly-labeled reviews and fined-grained aspects
 
 Jianmo Ni, Jiacheng Li, Julian McAuley
 Empirical Methods in Natural Language Processing (EMNLP), 2019
+
+After training we tried to predict the sentiment of unseen youtube comments with our model. Unfortunately the resulting accuracy was only about 50% percent regardless which training method we used. So we decided to create our own smaller youtube dataset containg about 3000 randomly chosen youtube comments and their sentiment.
+
+
 
 ## Project State 12.12.2022:
 
@@ -93,7 +106,7 @@ After preprocessing:
 
 number of revies per year
 
-![number reviews per year](datasets/reviews_full_plot.png)
+![number reviews per year](experiments/training_with_Amazon_reviews/Amazon_reviews_time_distribution.png)
 
 Because this dataset with 3410019 reviews is to big to perform to do preprocessing we are working on splitting the dataset to a choosen number of reviews.
 For the smaller dataset we will test if keeping the unbalanced distribution is better or distributing the number of reviews per category equally.
@@ -120,6 +133,7 @@ Date: 20/11/22 Rishabh and Jonathan:
 1) We continued to study scikit learn and its usage for text analysis.
 
 Date 27/11/22 Jakob 
+
 I splitted the amazon dataset in nine smaller files each about 200 MB so the cleaning the data becomes  possible on my machine
 Furthermore I removed  entries with the same text and rating, removedunused columns and converted the initally five star rating into our three categories.
 
@@ -132,6 +146,7 @@ Date: 01/12/22 - 04/12/22 Kushal
 3) Atlast after unable to find a feasible method. We settled on the idea to use reduced dataset.
 
 Date 4/12/22 - 12/12/22: Jakob 
+
 I tried to randomly pick  an equal amount of reviews from each splitted files. However executing this code 
 takes quite a while and the code currenlty only works if a number of reviews divisiable by 9 is chosen.
 
@@ -164,6 +179,9 @@ Next steps would be: We would like to train the model using vector machines.
 
 After this we intend to start training our models using vector machines. 
 
+18/01/2023 Rishab Jonathan and Jakob 
+
+We wrote different pipelines and compared the impact of these on the training results using the amazon review data
 
 06/02/2023 Rishabh and Jonathan:
 
