@@ -7,28 +7,42 @@ We also tested the impact of different pipelines to the accuarcy of the model in
 ## used approach to get the youtube comments
 This code imports the pandas library and a module called youtube_API, creates an instance of the youtube_API class, prompts the user to input a video ID, retrieves the comments from the YouTube video with the given ID using the youtube_API method "get_comments_from", converts the comments to a pandas series, and saves the series as a CSV file with a filename based on the video ID. In summary, this code fetches comments from a YouTube video and stores them in a CSV file for further analysis.
 
-This code is using the Google API Python client library to retrieve comments from a YouTube video and write them to a CSV file. Here is an explanation of what the code is doing:
 
-Install the Google API Python client library: pip install google-api-python-client.
+Approach Used: 
 
-Import necessary libraries: build and HttpError from googleapiclient.discovery, and csv.
+The code uses the Google API Python client library to connect to the YouTube Data API and retrieve comments from a specific YouTube video.
 
-Set up the API key, API service name, and API version. The API key is a unique identifier used to authenticate with the YouTube Data API. We need to obtain a valid API key from Google in order to use this code.
+First, the necessary libraries are imported, including the build and HttpError classes from the googleapiclient.discovery module, as well as the csv module for writing the comments to a CSV file.
 
-Build the YouTube API client using the build() function, passing in the API service name, API version, and API key.
+Next, the API key, API service name, and API version are set up. The API key is a unique identifier that allows the code to authenticate with the YouTube Data API.
 
-Create a request object to retrieve comment threads from a specific YouTube video. The part parameter specifies the snippet resource properties that the API response should include, and textFormat specifies the format in which the comment text should be returned.
+Then, the YouTube API client is built using the build() method, passing in the API service name, API version, and API key as arguments.
 
-Execute the request using the execute() method on the YouTube API client.
+After that, a request object is created to retrieve comment threads from a specific YouTube video. The part parameter specifies which resource properties should be included in the API response, while textFormat specifies the format in which the comment text should be returned. The videoId parameter specifies the ID of the YouTube video from which to retrieve comments.
 
-Open a new CSV file named "comments.csv" in write mode, and create a writer object using the csv.writer() method.
+Once the request object is set up, the execute() method is called on the YouTube API client to execute the API request and retrieve the comment threads.
 
-Write the header row to the CSV file.
+Finally, the comments are written to a CSV file named "comments.csv" using the csv module. The code iterates through the comment threads returned in the API response, extracts the comment text from each thread, and writes it to the CSV file.
 
-Iterate through the comment threads returned in the API response, extract the comment text, and write it to the CSV file.
+How can it be reproduced? :
 
-To reproduce these results, we need to replace "Your_API_Key" with your own valid YouTube Data API key. You will also need to update the videoId parameter in the request object to the ID of the YouTube video from which you want to retrieve comments. Finally, you can modify the maxResults parameter to control the number of comments returned per API request. Once you have made these changes, you can run the code and it will write the comments to a CSV file named "comments.csv" in the same directory as the script.
+To reproduce the results of this code, we need to follow these steps:
 
+Obtain a valid YouTube Data API key from Google. We can do this by creating a new project in the Google Cloud Console, enabling the YouTube Data API, and creating a new API key in the API credentials section.
+
+Install the Google API Python client library by running the command pip install google-api-python-client in your command prompt or terminal.
+
+Copy the code into a new Python script.
+
+Replace "Your_API_Key" in the api_key variable with your own valid YouTube Data API key.
+
+Replace "unjcGyx8AKc" in the videoId parameter of the request object with the ID of the YouTube video from which you want to retrieve comments. You can find the video ID in the URL of the YouTube video.
+
+If we want to retrieve more or fewer than 20 comments, we can adjust the maxResults parameter in the request object.
+
+Run the Python script, and it will retrieve the comments from the specified YouTube video and write them to a CSV file named "comments.csv" in the same directory as the script.
+
+Note that the CSV file will only contain the comment text itself. If we want to include additional information about the comments, such as the author or timestamp, we need to modify the writerow() function accordingly.
 
 
 ## the amazon review dataset 
