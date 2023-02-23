@@ -6,10 +6,17 @@
 - Jakob Forstmann, jakob.forstmann@stud.uni-heidelberg.de
 
 ## utilzed libraries: 
-- pandas: used to clean up the data 
+- <a herf="https://pandas.pydata.org/">Pandas</a> used to clean up the data
+	## processing libraries:
+	- <a herf="https://www.nltk.org/api/nltk.stem.html">Stem</a>: used  WordNet Lemmatizer for lematization
+	- <a herf="https://www.nltk.org/api/nltk.corpus.html">Corpus</a>: used  to remove stopwords
+	- <a herf="https://www.nltk.org/">NLTK</a>: used to preprocess the data
+	- <a herf="">re</a>: used to implement regular expression during processing
+
 - NLTK: used to preprocess the data
 - re: used to implement regular expression during processing
 - googleapiclient: used to fetch comments from youtube
+
 ## used dataset 
 We use the Movies and TV [amazon reviews dataset](https://nijianmo.github.io/amazon/index.html) from the following paper:
 
@@ -102,18 +109,37 @@ We will only work with the columns overall and review_text,since we are not inte
 
 
 ## project log
-Contribution by Rishabh and Jonathan:
 
-Date: 15/11/22
+Date: 15/11/22 Rishabh and Jonathan:
 1) https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html - for the pipelining of the data and more traditional models.
 2) https://www.tensorflow.org/tutorials - To train the data 
 3) We studied about the sickit learn tutorial/implemented it/learning the usage of the sickit learn for the vectorization and training the data set. 
 
-Date: 20/11/22
+Date: 20/11/22 Rishabh and Jonathan:
 
 1) We continued to study scikit learn and its usage for text analysis.
 
-Date 12/11/22
+Date 27/11/22 Jakob 
+I splitted the amazon dataset in nine smaller files each about 200 MB so the cleaning the data becomes  possible on my machine
+Furthermore I removed  entries with the same text and rating, removedunused columns and converted the initally five star rating into our three categories.
+
+Date: 01/12/22 - 04/12/22 Kushal
+
+1) Tried many ways by which I can read and process such huge dataset  in my computer.
+2) Methods I tried to use:
+	a) Spliting the data into more than 9 files
+	b) Installed a linux distro and used swap memory(10GB) as extension to RAM(8GB) but it also didn't worked.
+3) Atlast after unable to find a feasible method. We settled on the idea to use reduced dataset.
+
+Date 4/12/22 - 12/12/22: Jakob 
+I tried to randomly pick  an equal amount of reviews from each splitted files. However executing this code 
+takes quite a while and the code currenlty only works if a number of reviews divisiable by 9 is chosen.
+
+Date: 05/12/22 Kushal
+
+1) Now I just used a single file from the multiple splited to do the pre-processing and tesitng of the code.
+
+Date 12/11/22 Rishabh and Jonathan:
 
 1) We studied about Fitting and predicting: estimator basics
 2) Transformers and pre-processors
@@ -124,17 +150,12 @@ Date 12/11/22
 Next steps would be: We would like to train the model using vector machines. 
 
 
-16/12/22
-
-Contribution by Rishabh and Jonathan:
-
+16/12/22 Rishabh and Jonathan:
 1) We extracted the first 15 youtube comments from the random youtube videos irrespective of its genre.
 2) We took approximately 3000 comments.
 
 
-23/12/22
-
-Contribution by Rishabh and Jonathan: 
+23/12/22 Rishabh and Jonathan: 
 
 1) We finished extracting the 3000 youtube comments.
 2) We pre processed the youtube comments to make it easier for labelling.
@@ -144,8 +165,6 @@ Contribution by Rishabh and Jonathan:
 After this we intend to start training our models using vector machines. 
 
 
-06/02/2023
-
-Contribution by Rishabh and Jonathan:
+06/02/2023 Rishabh and Jonathan:
 
 We are done with pre-processing and training the model. 
