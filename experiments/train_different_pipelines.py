@@ -6,10 +6,11 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV, train_test_split
 import nltk
 from nltk.stem import LancasterStemmer
+from nltk.stem.snowball import EnglishStemmer
 from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import argparse
-from modul_preparation.main import get_available_indices
+from modul_preparation.prepare_training import get_available_indices
 import test_different_pipelines as pipelines
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -53,7 +54,6 @@ def init_model(preprocesser) -> GridSearchCV:
     ]
     return GridSearchCV(pipeline, param_grid)
 
-
 custom_stopwords = set(["delivery time", "product",
                        "price", "credit card", "video", "refund"])
 
@@ -62,43 +62,46 @@ if __name__ == "__main__":
     # with Porter Stemmer and only alphanumeric characters
     train_model_with(pipelines.StemTokenizer())
 
+    # with english stemmer and only alphanumeric characters
+    stem_tokenizer = pipelines.StemTokenizer(stemmer=EnglishStemmer())
+    train_model_with(stem_tokenizer)
+
     # with Porter Stemmer, only alphanumeric characters and Lemmatizer
-    stem_tokenizer = pipelines.StemTokenizer()
-    stem_tokenizer.enable_lemmatizer = True
-    stem_tokenizer.lemmatizer = WordNetLemmatizer()
+    stem_tokenizer = pipelines.StemTokenizer(lemmatizer=WordNetLemmatizer())
     train_model_with(stem_tokenizer)
 
     # with Lancaster Stemmer and only alphanumeric characters
-    stem_tokenizer = pipelines.StemTokenizer()
-    stem_tokenizer.lemmatizer = LancasterStemmer()
+    stem_tokenizer = pipelines.StemTokenizer(stemmer=LancasterStemmer())
     train_model_with(stem_tokenizer)
 
     # with Porter stemmer, only alphanumeric characters,custom stopwords and Lemmatizer
-    stem_tokenizer = pipelines.StemTokenizer()
-    stem_tokenizer.enable_lemmatizer = True
-    stem_tokenizer.lemmatizer = WordNetLemmatizer()
+    stem_tokenizer = pipelines.StemTokenizer(lemmatizer=WordNetLemmatizer())
     stem_tokenizer.stopwords.update(custom_stopwords)
     train_model_with(stem_tokenizer)
 
-    stem_tokenizer = pipelines.StemTokenizer(r"(\w+)|((?::|;|=)(?:-)?(?:\)|D|P))")
-    stem_tokenizer.lemmatizer = WordNetLemmatizer()
+    # with Porter Stemmer,Lemmatizer,custom stopwords and a regex to remove some emoticons
+    REMOVE_EMOTICONS  = r"(\w+)|((?::|;|=)(?:-)?(?:\)|D|P))"
+    stem_tokenizer = pipelines.StemTokenizer(regex=REMOVE_EMOTICONS,lemmatizer=WordNetLemmatizer())
     stem_tokenizer.stopwords.update(custom_stopwords)
+    train_model_with(stem_tokenizer)
+    stem_tokenizer = pipelines.StemTokenizer()
+    stem_tokenizer.normalize = True
     train_model_with(stem_tokenizer)
 
     # with stopwords from spacy and only alphanumeric characters
-    train_model_with(pipelines.StandardPipeline())
-
+    train_model_with(pipelines.SpacyPipeline())
 
     # with stopwords from spacy,only alphanumeric characters and lemmatizer
-    spacy_standard_pipeline = pipelines.StandardPipeline()
+    spacy_standard_pipeline = pipelines.SpacyPipeline()
     spacy_standard_pipeline.enable_lemmatizer = True
     train_model_with(spacy_standard_pipeline)
 
     # with custom stopwords,only alphanumeric characters and lemmatizer
-    spacy_pipeline = pipelines.StandardPipeline()
+    spacy_pipeline = pipelines.SpacyPipeline()
     spacy_pipeline.stop_words = spacy_pipeline.stop_words.union(custom_stopwords)
     spacy_standard_pipeline.enable_lemmatizer = True
     train_model_with(spacy_pipeline)
 
     training_results_df = pd.DataFrame(training_results)
     training_results_df.to_csv("trainig_results_different_preprocessing.csv")
+    
