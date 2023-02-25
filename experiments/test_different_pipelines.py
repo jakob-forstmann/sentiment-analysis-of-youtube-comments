@@ -4,8 +4,7 @@ from spacy.lang.en.stop_words import STOP_WORDS
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import stopwords as nltk_stopwords
 
-
-class StandardPipeline:
+class SpacyPipeline:
     def __init__(self):
         self.nlp = spacy.load("en_core_web_sm")
         self.nlp.disable_pipes("ner")
@@ -22,17 +21,30 @@ class StandardPipeline:
 
 
 class StemTokenizer:
-    def __init__(self, regex=r"\w\w+"):
+    def __init__(self,regex=r"\w\w+",stemmer=PorterStemmer(),lemmatizer=None):
         self.tokenizer = re.compile(regex)
         self.stopwords = set(nltk_stopwords.words('english'))
-        self.stemmer = PorterStemmer()
-        self.enable_lemmatizer = False
-        self.lemmatizer = None
+        self.stemmer = stemmer
+        self.lemmatizer = lemmatizer
+        self.normalize = False
+
+    def remove_punctuations(tokens):
+        return [re.sub('^[^A-Za-z]+', '', token) for token in tokens]
+    def remove_blank_tokens(self,tokens):
+        return list(filter(lambda token: token != "", tokens))
+
+    def lower_reviews(self,tokens):
+        return [token.lower() for token in tokens]
 
     def __call__(self, doc):
         tokens = self.tokenizer.findall(doc)
         tokens = [self.stemmer.stem(t)
                   for t in tokens if not t in self.stopwords]
-        if self.enable_lemmatizer:
+        if self.normalize is not None:
+            tokens = self.normalize()
+        if self.lemmatizer is not None:
             tokens = [self.lemmatizer.lemmatize(t) for t in tokens]
-        return tokens
+        if self.normalize:
+            tokens = self.remove_blank_tokens(tokens)
+            tokens = self.remove_punctuations(tokens)
+            return self.lower_reviews(tokens)
