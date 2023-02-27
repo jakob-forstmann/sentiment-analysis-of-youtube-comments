@@ -27,7 +27,7 @@ class Youtube:
 
             # Append the comments fetched from more pages #
             for video_comment in video_comments:
-                print(video_comment)
+                # print(video_comment)
                 comments.append(video_comment)
 
             # Increment for Comments #

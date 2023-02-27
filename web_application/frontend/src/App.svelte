@@ -3,7 +3,6 @@
 
   import Navbar from "./components/Navbar.svelte";
   import Searchbar from "./components/Searchbar.svelte";
-  import VideoCard from "./components/VideoCard.svelte";
   import VideoComments from "./components/VideoComments.svelte";
   import Footer from "./components/Footer.svelte";
 </script>
@@ -11,7 +10,6 @@
 <Navbar {name} />
 <main>
   <Searchbar />
-  <VideoCard />
   <VideoComments />
 </main>
 <Footer />

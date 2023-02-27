@@ -15,7 +15,8 @@ body {
 }
 
 body {
-	color: #333;
+	background-color: rgb(179, 238, 218);
+	color: #565656;
 	margin: auto;
 	display: flex;
 	width: 60%;

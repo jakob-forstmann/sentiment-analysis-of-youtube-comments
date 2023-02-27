@@ -48,12 +48,13 @@
     justify-content: center;
   }
 
-  /* 
-  .search-label {
+  /* .search-label{
+  } */
+  .search-bar,.search-submit {
+    background-color: #c6e3eb;
   }
-  .search-bar {
+  /* .search-bar {
   }
   .search-submit {
-  }
-   */
+  } */
 </style>
