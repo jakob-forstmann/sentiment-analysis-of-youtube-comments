@@ -56,13 +56,12 @@ def get_available_indices():
             "amazon": amazon_index
             }
 
-
-amazon_reviews = load_reviews_from_disk("../data/amazon_reviews.csv")
-amazon_mapping = prepare_mapping("overall","reviewText")
-amazon_index = elasticSearchAPI("amazon_reviews",amazon_mapping)
-amazon_index.store_reviews(amazon_reviews)
-youtube_comments = load_comments_from_disk("../data/youtube_data.csv")
-youtube_mapping = prepare_mapping("comment","sentiment")
-youtube_index = elasticSearchAPI("youtube_comments", youtube_mapping)
-youtube_index.store_reviews(youtube_comments)
-
+if __name__ == "__main__":
+    amazon_reviews = load_reviews_from_disk("../data/amazon_reviews.csv")
+    amazon_mapping = prepare_mapping("overall","reviewText")
+    amazon_index = elasticSearchAPI("amazon_reviews",amazon_mapping)
+    amazon_index.store_reviews(amazon_reviews)
+    youtube_comments = load_comments_from_disk("../data/youtube_data.csv")
+    youtube_mapping = prepare_mapping("comment","sentiment")
+    youtube_index = elasticSearchAPI("youtube_comments", youtube_mapping)
+    youtube_index.store_reviews(youtube_comments)

@@ -57,6 +57,6 @@ def save_dataset(source_files: list[str],dest_file:str, n_reviews=2000):
                     data.append(this_review)
     random.shuffle(data)
     picked_reviews = pd.DataFrame.from_dict(data)
-    picked_reviews = clean_data(df)
-    picked_reviews(dest_file,index=False)
+    picked_reviews = clean_data(picked_reviews)
+    picked_reviews.to_csv(dest_file,index=False)
     return picked_reviews
