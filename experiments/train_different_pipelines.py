@@ -10,7 +10,7 @@ from nltk.stem.snowball import EnglishStemmer
 from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import argparse
-from modul_preparation.prepare_training import get_available_indices
+from modul_preparation.prepare_training import load_comments,load_reviews
 import test_different_pipelines as pipelines
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -28,11 +28,14 @@ def choose_dataset():
                         choices=["youtube","amazon"],dest="chosen_index")
     args = parser.parse_args()
     return args.chosen_index
-
+    
 def load_dataset() -> pd.DataFrame:
     user_choice = choose_dataset()
-    indices = get_available_indices()
-    index_to_load_from = indices[user_choice]
+    available_indicies = {
+        "youtube":load_comments(),
+        "amazon":load_reviews()
+        }
+    index_to_load_from = available_indicies[user_choice]
     return index_to_load_from.load_reviews()
 
 
@@ -40,8 +43,8 @@ def train_model_with(tokenizer):
     dataset = load_dataset()
     grid_search_cv = init_model(tokenizer)
     colum_names = dataset.columns
-    X = dataset.loc[0:100, colum_names[0]]
-    y = dataset.loc[0:100, colum_names[1]]
+    X = dataset.loc[:, colum_names[0]]
+    y = dataset.loc[:, colum_names[1]]
     grid_search_cv.fit(X, y)
     training_results.append(grid_search_cv.cv_results_)
 
@@ -59,6 +62,7 @@ custom_stopwords = set(["delivery time", "product",
 
 
 if __name__ == "__main__":
+
     # with Porter Stemmer and only alphanumeric characters
     train_model_with(pipelines.StemTokenizer())
 
@@ -103,5 +107,4 @@ if __name__ == "__main__":
     train_model_with(spacy_pipeline)
 
     training_results_df = pd.DataFrame(training_results)
-    training_results_df.to_csv("trainig_results_different_preprocessing.csv")
-    
+    training_results_df.to_csv("../data/trainig_results_different_preprocessing.csv")

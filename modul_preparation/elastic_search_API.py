@@ -2,24 +2,27 @@ import pandas as pd
 from itertools import count
 from elasticsearch import Elasticsearch
 from elasticsearch import RequestError,ConflictError
-from credentials import es_url
+from .credentials import es_url
 
 class elasticSearchAPI():
     """ 
     defines methods to create an index and load or store data to it
+    creating an instance of this class with an already existing index name 
+    uses the already created index with the passed name from elasticsearch
     """
-    _ids = count(0)
-    def __init__(self,index_name,mapping):
+    _autoincrement_id = count(0)
+    created_indicies = {}
+    def __init__(self,index_name,mapping=None):
         try:
             self.es = Elasticsearch(es_url)
             self.es.info()
-            self.index_id = next(self._ids)
         except ConnectionError as err:
             print(f"Connection to elastic search failed with message {err}")
         self.index_name = index_name
+        self.document_id = self._autoincrement_id
         self.allowed_columns = list(mapping["properties"].keys())
         self.mapping = mapping
-
+    
     def create_index(self):
         """
         create an index with a strict mapping with the named passed to the constructor
@@ -41,9 +44,9 @@ class elasticSearchAPI():
         data = reviews.to_dict(orient="list")
         try:
             self.create_index()
-            self.es.create(index=self.index_name,id=self.index_id,document=data,refresh="wait_for")
+            self.es.create(index=self.index_name,id=self.document_id,document=data,refresh="wait_for")
         except ConflictError:
-            print(f"the data with the columns {reviews.columns}was already inserted")    
+            print(f"the data with the columns {reviews.columns}was already inserted")
         except RequestError as err:
             print(f" allowed columns: {self.allowed_columns}")
             print(f"raw error msg {err}")
