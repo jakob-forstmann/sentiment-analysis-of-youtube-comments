@@ -28,7 +28,7 @@ class StemTokenizer:
         self.lemmatizer = lemmatizer
         self.normalize = False
 
-    def remove_punctuations(tokens):
+    def remove_punctuations(self,tokens):
         return [re.sub('^[^A-Za-z]+', '', token) for token in tokens]
     def remove_blank_tokens(self,tokens):
         return list(filter(lambda token: token != "", tokens))
@@ -40,11 +40,10 @@ class StemTokenizer:
         tokens = self.tokenizer.findall(doc)
         tokens = [self.stemmer.stem(t)
                   for t in tokens if not t in self.stopwords]
-        if self.normalize is not None:
-            tokens = self.normalize()
         if self.lemmatizer is not None:
-            tokens = [self.lemmatizer.lemmatize(t) for t in tokens]
+            tokens= [self.lemmatizer.lemmatize(t) for t in tokens]
         if self.normalize:
             tokens = self.remove_blank_tokens(tokens)
             tokens = self.remove_punctuations(tokens)
-            return self.lower_reviews(tokens)
+            tokens = self.lower_reviews(tokens)
+        return tokens
