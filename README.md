@@ -5,6 +5,26 @@
 - Jonathan Alexander Hirsch, ww251@stud.uni-heidelberg.de 
 - Jakob Forstmann, jakob.forstmann@stud.uni-heidelberg.de
 
+## project structure:
+- web-application contains the code for the webinterface. This includes the code used for fetching the youtube comments and the classification of the youtube comments
+-  module_preparation contains the code for the training of our model with the youtube comments. Furthermore it includes the code for 
+  loading the dataset and for storing and loading the datasets into elastic search
+- data contains our results of our experiments as well as the used plots.
+- experiments has its own [README](/experiments/Training.md) where you can find more information.
+
+## How to setup the webinterface 
+
+## train our model using the already created youtube comments dataset:
+Since the dataset is stored in elasticsearch you will need an running elastic search instance on your machine.
+Furthermore you will need to create a file `credentials.py` in the folder module_preparation containg your elastic search user name and password.
+After everthing is set up you can follow these steps to train our model:
+
+1) install the neccessary requirements using the requirements.txt in the folder modul_preparation 
+
+2) execute the file `modul_preparation/train.py` with the desired desired dataset. 
+ 
+
+## Project Milestone 12/12/2022 
 ## utilzed libraries: 
 - <a herf="https://pandas.pydata.org/">Pandas</a> used to clean up the data
 	## processing libraries:
@@ -38,7 +58,7 @@ After training we tried to predict the sentiment of unseen youtube comments with
 
 
 
-## Project State 12.12.2022:
+## Project State 12/12/2022:
 
 ### planning state:
 
