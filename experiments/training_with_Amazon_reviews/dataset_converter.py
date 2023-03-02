@@ -1,3 +1,7 @@
+"""
+convert the data of dataframe with reviews from the amazon dataset into our 
+three categories and cleans the data
+"""
 import random
 import gzip
 import json
@@ -27,24 +31,14 @@ def filter_duplicates_entries(rating: pd.DataFrame):
     """ drops reviews which have the same rating and the same review text"""
     rating.drop_duplicates(["reviewText", "overall"],inplace=True)
 
-def clean_data(rating: pd.DataFrame, operations=[delete_unused_columns,convert_star_rating,filter_duplicates_entries]) -> pd.DataFrame:
-    """ 
-    clean a converted dataframe with the passed functions
-    supported functions are:
-    delete unused columns
-    convert an amazon rating into three categories:positive, neutral, negative
-    remove reviews with the same rating and the same review text """
-    for operation in operations:
-        try:
-            operation(rating)
-        except KeyError(operation):
-            print(f"operation {operation} not supported")
+def clean_data(rating: pd.DataFrame) -> pd.DataFrame:
+    delete_unused_columns(rating)
+    convert_star_rating(rating)
+    filter_duplicates_entries(rating)
     return rating
 
 def save_dataset(source_files: list[str],dest_file:str, n_reviews=2000):
-    """
-    randomly picks 2000 reviews from different categories stored in source_files.
-    """
+    """randomly picks 2000 reviews from different categories stored in source_files"""
     data = []
     # calculated on https://www.unixtimestamp.com/
     UNIX_TIMESTAMP_2015 = 1420070400
@@ -62,7 +56,7 @@ def save_dataset(source_files: list[str],dest_file:str, n_reviews=2000):
                 if this_review['unixReviewTime'] < UNIX_TIMESTAMP_2015 and random.random() < share:
                     data.append(this_review)
     random.shuffle(data)
-    df = pd.DataFrame.from_dict(data)
-    df = clean_data(df)
-    df.to_csv(dest_file,index=False)
-    return df
+    picked_reviews = pd.DataFrame.from_dict(data)
+    picked_reviews = clean_data(picked_reviews)
+    picked_reviews.to_csv(dest_file,index=False)
+    return picked_reviews
