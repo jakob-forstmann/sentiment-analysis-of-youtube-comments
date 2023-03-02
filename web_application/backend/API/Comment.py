@@ -6,7 +6,8 @@ import pandas as pd
 class Comment:
     def __init__(self):
         '''Initialize the trained prediction model'''
-        self.prediction_model = joblib.load(os.path.dirname(os.path.realpath(__file__))+"/../resources/TrainedModel/YoutubeModel.joblib")
+        ModelPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../resources/TrainedModel/YoutubeModel.joblib")
+        self.prediction_model = joblib.load(ModelPath)
         # Predicted Comments are to store the comments in pandas
         # dataframe across the class for easy use
         self.predicted_comments = pd.DataFrame(columns=("comment", "sentiment"))

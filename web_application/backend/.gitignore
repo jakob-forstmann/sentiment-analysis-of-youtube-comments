@@ -2,3 +2,6 @@ API_KEYS.py
 __pycache__
 test.py
 youtube_data.csv
+/node_modules/
+package-lock.json
+package.json

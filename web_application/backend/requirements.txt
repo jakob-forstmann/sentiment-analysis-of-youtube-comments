@@ -1,5 +1,5 @@
 fastapi
 pandas
-unicorn
+uvicorn
 elasticsearch==7.17.7
 google-api-python-client
