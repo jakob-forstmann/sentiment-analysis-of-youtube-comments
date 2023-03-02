@@ -21,7 +21,7 @@ After everthing is set up you can follow these steps to train our model:
 
 1) install the neccessary requirements using the requirements.txt in the folder modul_preparation 
 
-2) execute the file `modul_preparation/train.py` with the desired desired dataset. 
+2) execute the file `training.py`. 
  
 
 ## Project Milestone 12/12/2022 
@@ -70,7 +70,7 @@ After training we tried to predict the sentiment of unseen youtube comments with
 - we implemented a module to get the comments from a video with a given ID using the Google API Client (we created a Google Developer Key for that purpose)
 
 ### Future planning:
-- Rishabh and Jonathan are going to use linear Support Vector Machines (SVM) for our classification problem since they among the best models for Sentiment    Analysis.
+- Rishabh and Jonathan are going to use linear Support Vector Machines (SVM) for our classification problem since they among the best models for Sentiment Analysis.
 - they are going to use the data set for training and hyperparameter tuning of the SVM.
 - finally the SVM should than be tested on comments from YouTube.
 - Jakob will after he is done with the relevance sampling start to evaluate if any prepocessing is necessary for the raw comments fetched from youtube.
