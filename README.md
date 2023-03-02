@@ -139,7 +139,40 @@ For the smaller dataset we will test if keeping the unbalanced distribution is b
 
 We will only work with the columns overall and review_text,since we are not interested in all other columns.
 
+#### A quick guide on `How to run Web Application of this project?`
 
+##### To run the application first you need to run the `server-side`
+1. Move to server directory
+```bash
+cd Web_Application/backend/
+```
+2. Install required dependencies with **requirements.txt** using pip
+```bash
+pip install -r requirements.txt
+```
+3. Now, run the sever with **uvicorn**
+```bash
+python -m uvicorn main:app
+```
+##### Now to run the `client-side`
+4. Open another terminal
+5. Then move to frontend directory
+```bash
+cd Web_Application/frontend/
+```
+6. Make sure you have npm installed
+  - If error install npm first with your preferred package manager
+```bash
+npm --version
+```
+7. Install dependencies with npm install
+```bash
+npm install
+```
+8. After that you need to run the frontend server
+```bash
+npm run dev
+```
 
 ## project log
 
