@@ -37,7 +37,7 @@ def clean_data(rating: pd.DataFrame) -> pd.DataFrame:
     filter_duplicates_entries(rating)
     return rating
 
-def save_dataset(source_files: list[str],dest_file:str, n_reviews=2000):
+def create_dataset(source_files: list[str],n_reviews=2000,randomize_categories=True):
     """randomly picks 2000 reviews from different categories stored in source_files"""
     data = []
     # calculated on https://www.unixtimestamp.com/
@@ -55,8 +55,11 @@ def save_dataset(source_files: list[str],dest_file:str, n_reviews=2000):
                 this_review = json.loads(line.strip())
                 if this_review['unixReviewTime'] < UNIX_TIMESTAMP_2015 and random.random() < share:
                     data.append(this_review)
-    random.shuffle(data)
+    if randomize_categories:
+        random.shuffle(data)
     picked_reviews = pd.DataFrame.from_dict(data)
     picked_reviews = clean_data(picked_reviews)
-    picked_reviews.to_csv(dest_file,index=False)
     return picked_reviews
+
+def save_dataset(dest_file:str,reviews:pd.DataFrame):
+    reviews.to_csv(dest_file,index=False)

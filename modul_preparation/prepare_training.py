@@ -1,13 +1,16 @@
 from os import path,strerror
 import errno
 import pandas as pd
-from .elastic_search_API import elasticSearchAPI
+from elastic_search_API import elasticSearchAPI
 from experiments.training_with_Amazon_reviews.dataset_converter import save_dataset,create_dataset
 
 raw_amazon_dataset_path = ["../data/Electronics.json.gz","../data/Software.json.gz",
                     "../data/Home_and_Kitchen.json.gz",
                     "../data/Movies_and_Tv.json.gz",
                     "../data/All_Beauty.json.gz"]
+
+class InstancePool():
+    instances = {"youtube":None,"amazon":None}
 
 
 def prepare_mapping(first_column,second_column):
@@ -43,13 +46,17 @@ def load_reviews_from_disk(file_path:str):
     return reviews
 
 def load_comments():
-    youtube_comments = load_comments_from_disk("../data/youtube_data.csv")
-    youtube_mapping = prepare_mapping("comment","sentiment")
-    youtube_index = elasticSearchAPI("youtube_comments", youtube_mapping)
-    return youtube_index
+    if InstancePool.instances["youtube"] is None:
+        youtube_comments = load_comments_from_disk("../data/youtube_data.csv")
+        youtube_mapping = prepare_mapping("comment","sentiment")
+        youtube_index = elasticSearchAPI("youtube_comments", youtube_mapping)
+        InstancePool.instances["youtube"] = youtube_index
+    return InstancePool.instances["youtube"]
 
 def load_reviews():
-    amazon_reviews = load_reviews_from_disk("../data/amazon_reviews.csv")
-    amazon_mapping = prepare_mapping("overall","reviewText")
-    amazon_index =elasticSearchAPI("amazon_reviews",amazon_mapping)
-    return amazon_index
+    if InstancePool.instances["amazon"] is None:
+        amazon_reviews = load_reviews_from_disk("../data/amazon_reviews.csv")
+        amazon_mapping = prepare_mapping("overall","reviewText")
+        amazon_index =elasticSearchAPI("amazon_reviews",amazon_mapping)
+        InstancePool.instances["amazon"] = amazon_index
+    return InstancePool.instances["amazon"]
