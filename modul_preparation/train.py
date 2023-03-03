@@ -5,10 +5,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import classification_report, cohen_kappa_score, roc_auc_score
 from sklearn.model_selection import train_test_split
-from .prepare_training import load_comments
+from .prepare_training import load_youtube_dataset
 
 def train():
-    youtube_index = load_comments()
+    youtube_index = load_youtube_dataset("data/youtube_data.csv")
     youtube_data = youtube_index.load_reviews()
     comments_train, comments_test, sentiment_train, sentiment_test = train_test_split(
         youtube_data.iloc[:, 0],

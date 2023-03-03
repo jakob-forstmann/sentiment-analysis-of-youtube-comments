@@ -10,7 +10,7 @@ from nltk.stem.snowball import EnglishStemmer
 from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import argparse
-from modul_preparation.prepare_training import load_comments,load_reviews
+from modul_preparation.prepare_training import load_youtube_dataset,load_amazon_dataset
 import test_different_pipelines as pipelines
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -32,8 +32,8 @@ def choose_dataset():
 def load_dataset() -> pd.DataFrame:
     user_choice = choose_dataset()
     available_indicies = {
-        "youtube":load_comments(),
-        "amazon":load_reviews()
+        "youtube":load_youtube_dataset("../data/youtube_data.csv"),
+        "amazon":load_amazon_dataset("../data/amazon_reviews.csv")
         }
     index_to_load_from = available_indicies[user_choice]
     return index_to_load_from.load_reviews()
@@ -42,9 +42,9 @@ def load_dataset() -> pd.DataFrame:
 def train_model_with(tokenizer):
     dataset = load_dataset()
     grid_search_cv = init_model(tokenizer)
-    colum_names = dataset.columns
-    X = dataset.loc[:, colum_names[0]]
-    y = dataset.loc[:, colum_names[1]]
+    column_names = dataset.columns
+    X = dataset.loc[:, column_names[1]]
+    y = dataset.loc[:, column_names[0]]
     grid_search_cv.fit(X, y)
     training_results.append(grid_search_cv.cv_results_)
 
@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     # with Porter Stemmer and only alphanumeric characters
     train_model_with(pipelines.StemTokenizer())
-
+    
     # with english stemmer and only alphanumeric characters
     stem_tokenizer = pipelines.StemTokenizer(stemmer=EnglishStemmer())
     train_model_with(stem_tokenizer)

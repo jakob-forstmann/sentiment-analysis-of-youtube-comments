@@ -3,9 +3,9 @@ from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import GridSearchCV, train_test_split
 import pandas as pd
-from prepare_training import load_comments,load_reviews
+from prepare_training import load_youtube_dataset
 
-youtube_index = load_comments()
+youtube_index = load_youtube_dataset("../data/youtube_data.csv")
 youtube_data = youtube_index.load_reviews()
 comments_train, comments_test, sentiment_train, sentiment_test = train_test_split(
     youtube_data,
