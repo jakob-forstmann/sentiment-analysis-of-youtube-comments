@@ -21,7 +21,11 @@ After everthing is set up you can follow these steps to train our model:
 
 1) install the neccessary requirements using the requirements.txt in the folder modul_preparation 
 
-2) execute the file `training.py`. 
+2) execute the file `training.py`.
+
+3) follow the steps in web_application/backend/README.md
+
+4) follow the steps in web_application/backend/README.md
  
 
 ## Project Milestone 12/12/2022 
