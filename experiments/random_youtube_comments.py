@@ -1,9 +1,9 @@
 import pandas as pd
-from youtube_api import youtube_API
+from web_application.backend.API.Youtube import Youtube
 
-api_instance = youtube_API()
+api_instance = Youtube()
 video_id = input("video ID: ")
-comments = api_instance.get_comments_from(video_id)
+comments = api_instance.get_all_comments_from_video(video_id)
 
 df = pd.Series(comments)
 df.to_csv(f"data/labeled_youtube_comments_{video_id}.csv")

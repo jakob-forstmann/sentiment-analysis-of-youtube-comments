@@ -50,6 +50,9 @@ def load_reviews_from_disk(file_path:str):
     return reviews
 
 def load_youtube_dataset(filePath):
+    """ loads the youtube dataset from elastic search 
+        or stores the youtube dataset at filePath in elastic search
+        if the dataset is not found in elastic search"""
     if InstancePool.instances["youtube"] is None:
         youtube_comments = load_comments_from_disk(filePath)
         youtube_mapping = prepare_mapping("comment","sentiment")
@@ -58,6 +61,9 @@ def load_youtube_dataset(filePath):
     return InstancePool.instances["youtube"]
 
 def load_amazon_dataset(filePath):
+    """ loads the amazon dataset from elastic search 
+        or stores the amahon dataset at filePath in elastic search
+        if the dataset is not found in elastic search"""
     if InstancePool.instances["amazon"] is None:
         amazon_reviews = load_reviews_from_disk(filePath)
         amazon_mapping = prepare_mapping("overall","reviewText")
