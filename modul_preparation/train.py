@@ -4,11 +4,12 @@ from sklearn.svm import LinearSVC
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
-from prepare_training import load_comments
+from prepare_training import load_youtube_dataset,load_amazon_dataset
 
 if __name__ =="__main__":   
-    youtube_index = load_comments()
+    youtube_index = load_youtube_dataset()
     youtube_data = youtube_index.load_reviews()
+    amazon_revies = load_amazon_dataset()
     comments_train, comments_test, sentiment_train, sentiment_test = train_test_split(
         youtube_data,
         test_size=0.25,
@@ -23,4 +24,3 @@ if __name__ =="__main__":
 
     print("Training finished")
     print(f"Final model as test accuracy of {test_accuracy:2%}.")
-    

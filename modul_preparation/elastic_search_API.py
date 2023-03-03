@@ -2,7 +2,7 @@ import pandas as pd
 from itertools import count
 from elasticsearch import Elasticsearch
 from elasticsearch import RequestError,ConflictError
-from .credentials import es_url
+from credentials import es_url
 
 class elasticSearchAPI():
     """ 

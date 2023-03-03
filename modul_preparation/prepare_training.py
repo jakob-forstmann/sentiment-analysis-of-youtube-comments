@@ -2,7 +2,7 @@ from os import path,strerror
 import errno
 import pandas as pd
 from elastic_search_API import elasticSearchAPI
-from experiments.training_with_Amazon_reviews.dataset_converter import save_dataset,create_dataset
+from experiments.training_with_Amazon_reviews.dataset_converter import save_dataset,create_dataset,clean_data
 
 raw_amazon_dataset_path = ["../data/Electronics.json.gz","../data/Software.json.gz",
                     "../data/Home_and_Kitchen.json.gz",
@@ -40,12 +40,13 @@ def load_reviews_from_disk(file_path:str):
     if the csv file does not exist it will be created"""
     if not path.isfile(file_path):
         reviews = create_dataset(raw_amazon_dataset_path)
+        clean_data(reviews)
         save_dataset("../data/amazon_reviews.csv",reviews)
     else:
         reviews = pd.read_csv(file_path)
     return reviews
 
-def load_comments():
+def load_youtube_dataset():
     if InstancePool.instances["youtube"] is None:
         youtube_comments = load_comments_from_disk("../data/youtube_data.csv")
         youtube_mapping = prepare_mapping("comment","sentiment")
@@ -53,7 +54,7 @@ def load_comments():
         InstancePool.instances["youtube"] = youtube_index
     return InstancePool.instances["youtube"]
 
-def load_reviews():
+def load_amazon_dataset():
     if InstancePool.instances["amazon"] is None:
         amazon_reviews = load_reviews_from_disk("../data/amazon_reviews.csv")
         amazon_mapping = prepare_mapping("overall","reviewText")
