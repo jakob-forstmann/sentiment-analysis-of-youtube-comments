@@ -13,9 +13,17 @@
 - experiments has its own [README](/experiments/Training.md) where you can find more information.
 
 ## How to setup the webinterface 
-1) start the backend, please follow the steps in this [README](/web_application/backend/README.md) for more information
+0) obtain a valid youtube API token. You can get one by creating a new project in the Google Cloud Console, enabling the YouTube Data API and creating a new API key in the API credentials section.
 
-2) start the frontend,please follow the steps in this [README](/web_application/frontend/README.md) for more information
+1) store your API Token in the file `web-application/backend/API/API_KEYS.py `like this:
+```
+file API_KEYS.py 
+YOUTUBE_API_KEY =##your API Key 
+``` 
+
+2) start the backend, please follow the steps in this [README](/web_application/backend/README.md) for more information
+
+3) start the frontend,please follow the steps in this [README](/web_application/frontend/README.md) for more information
 
 ## train our model using the already created youtube comments dataset:
 Since the dataset is stored in elasticsearch you will need an running elastic search instance on your machine.
