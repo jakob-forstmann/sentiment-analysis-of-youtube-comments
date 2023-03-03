@@ -13,6 +13,9 @@
 - experiments has its own [README](/experiments/Training.md) where you can find more information.
 
 ## How to setup the webinterface 
+1) start the backend, please follow the steps in this [README](/web_application/backend/README.md) for more information
+
+2) start the frontend,please follow the steps in this [README](/web_application/frontend/README.md) for more information
 
 ## train our model using the already created youtube comments dataset:
 Since the dataset is stored in elasticsearch you will need an running elastic search instance on your machine.
@@ -22,11 +25,6 @@ After everthing is set up you can follow these steps to train our model:
 1) install the neccessary requirements using the requirements.txt in the folder modul_preparation 
 
 2) execute the file `training.py`.
-
-3) follow the steps in web_application/backend/README.md
-
-4) follow the steps in web_application/backend/README.md
- 
 
 ## Project Milestone 12/12/2022 
 ## utilzed libraries: 
@@ -142,41 +140,6 @@ For the smaller dataset we will test if keeping the unbalanced distribution is b
 | 5.0     | true     | 04 12, 2016 | A2CFV9UPFTTM10 | 0005419263 | Format:Audio CD | SuzieQ       | The little ones love this | Love it | 1460419200     |
 
 We will only work with the columns overall and review_text,since we are not interested in all other columns.
-
-#### A quick guide on `How to run Web Application of this project?`
-
-##### To run the application first you need to run the `server-side`
-1. Move to server directory
-```bash
-cd Web_Application/backend/
-```
-2. Install required dependencies with **requirements.txt** using pip
-```bash
-pip install -r requirements.txt
-```
-3. Now, run the sever with **uvicorn**
-```bash
-python -m uvicorn main:app
-```
-##### Now to run the `client-side`
-4. Open another terminal
-5. Then move to frontend directory
-```bash
-cd Web_Application/frontend/
-```
-6. Make sure you have npm installed
-  - If error install npm first with your preferred package manager
-```bash
-npm --version
-```
-7. Install dependencies with npm install
-```bash
-npm install
-```
-8. After that you need to run the frontend server
-```bash
-npm run dev
-```
 
 ## project log
 
