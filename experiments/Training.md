@@ -5,7 +5,7 @@ In this folder you can find the code used for the experiments we performed,the c
 
  
 # used datasets:
-We used two different datasets to train our model.At first we trained our model with the [amazon reviews dataset](https://nijianmo.github.io/amazon/index.html). Unfortunately this model reached an accuracy of only about 50% on youtbe comments, so we decided to use a youtube comments dataset instead.
+We used two different datasets to train our model.At first we trained our model with the [amazon reviews dataset](https://nijianmo.github.io/amazon/index.html). Unfortunately this model reached an accuracy of only about 50% on youtube comments, so we decided to use a youtube comments dataset instead.
 We also tested the impact of different pipelines to the accuarcy of the model in the file `experiments.train.py`. 
 
 ## how to create the youtube comments dataset
@@ -22,4 +22,4 @@ We also tested the impact of different pipelines to the accuarcy of the model in
 - `training_with_Amazon_reviews/download_datasets.sh`: this file will download the chosen categories from the website. Please store them in the data folder if you want to generate the amazon dataset from scratch
 
 - `compute_distributions.py`: this file can be as a starting point to generate different plots. 
-Please note that if you want to generate the number reviews per year for each category you have to crete the amazon dataset agian but this time keep the categories.
+Please note that if you want to generate the number reviews per year for each category you have to crete the amazon dataset again but this time keep the categories.
