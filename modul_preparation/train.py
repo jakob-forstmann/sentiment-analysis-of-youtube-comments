@@ -30,8 +30,8 @@ def train():
     joblib.dump(pipeline, './youtube_model.joblib')
 
     print("Training finished")
-    print(f"Final model as test accuracy of {test_accuracy:2%}.")
-    print(f"The cohen kappa score is {cohen_kappa_result:.2}.")
+    print(f"Final model as test accuracy of {test_accuracy:.1%}.")
+    print(f"The cohen kappa score is {cohen_kappa_result:.3}.")
     print()
     print(metric_results)
 
