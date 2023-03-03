@@ -16,10 +16,10 @@
 0) obtain a valid youtube API token. You can get one by creating a new project in the Google Cloud Console, enabling the YouTube Data API and creating a new API key in the API credentials section.
 
 1) store your API Token in the file `web-application/backend/API/API_KEYS.py `like this:
-```
-file API_KEYS.py 
-YOUTUBE_API_KEY =##your API Key 
-``` 
+   ```
+   file API_KEYS.py 
+   YOUTUBE_API_KEY =##your API Key 
+   ``` 
 
 2) start the backend, please follow the steps in this [README](/web_application/backend/README.md) for more information
 
@@ -34,6 +34,13 @@ After everthing is set up you can follow these steps to train our model:
 
 2) execute the file `training.py`.
 
+  if your IDE doesnt´t manage the imports correctly you can manually add the modules to your PYTHON PATH in the shell like this:
+   ```bash 
+  PYTHONPATH="/path/to/sentimen-analysis-of-youtbe-comments":$PYTHONPATH 
+  PYTHONPATH="/path/to/sentimen-analysis-of-youtbe-comments/modul_preparation":$PYTHONPATH 
+  PYTHONPATH="/path/to/sentimen-analysis-of-youtbe-comments/experiments":$PYTHONPATH 
+  export PYTHONPATH
+  ```
 ## Project Milestone 12/12/2022 
 ## utilzed libraries: 
 - <a herf="https://pandas.pydata.org/">Pandas</a> used to clean up the data
